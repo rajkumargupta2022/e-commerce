@@ -1,0 +1,237 @@
+"use client";
+import React, { useState } from "react";
+import { assets } from "@/assets/assets";
+import Image from "next/image";
+import { toast } from "react-toastify";
+import { postRequest } from "../utils/api-methods";
+import { endPoints } from "../utils/url";
+
+const AddProduct = () => {
+  const [image1, setImage1] = useState(null);
+  const [image2, setImage2] = useState(null);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("Short Kurtas");
+  const [febricCategory, setFebricCategory] = useState("Cotton");
+  const [size, setSize] = useState("M");
+  const [price, setPrice] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (!image1 || !image2) {
+        toast.error("Please upload both images!");
+        return;
+      }
+
+      // ✅ Use FormData because of images
+      const formData = new FormData();
+      formData.append("image1", image1);
+      formData.append("image2", image2);
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("category", category);
+      formData.append("febricCategory", febricCategory);
+      formData.append("size", size);
+      formData.append("price", price);
+
+      const res = await postRequest(endPoints.products, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (res?.success) {
+        toast.success("Product added successfully!");
+        // clear form
+        setImage1(null);
+        setImage2(null);
+        setName("");
+        setDescription("");
+        setCategory("Short Kurtas");
+        setSize("M");
+        setPrice("");
+      } 
+    } catch (err) {
+      console.error(err);
+      toast.error("Error submitting product");
+    }
+  };
+
+  return (
+    <div className="flex-1 min-h-screen flex flex-col justify-between">
+      <form
+        onSubmit={handleSubmit}
+        className="md:p-10 p-4 space-y-5 max-w-lg"
+      >
+        {/* Image 1 */}
+        <div>
+          <p className="text-base font-medium">Product Image 1</p>
+          <div className="flex flex-wrap items-center gap-3 mt-2">
+            <label htmlFor="image1">
+              <input
+                type="file"
+                id="image1"
+                hidden
+                accept="image/*"
+                onChange={(e) =>
+                  e.target.files && setImage1(e.target.files[0])
+                }
+              />
+              <Image
+                className="max-w-24 cursor-pointer"
+                src={image1 ? URL.createObjectURL(image1) : assets.upload_area}
+                alt="Image 1"
+                width={100}
+                height={100}
+              />
+            </label>
+          </div>
+        </div>
+
+        {/* Image 2 */}
+        <div>
+          <p className="text-base font-medium">Product Image 2</p>
+          <div className="flex flex-wrap items-center gap-3 mt-2">
+            <label htmlFor="image2">
+              <input
+                type="file"
+                id="image2"
+                hidden
+                accept="image/*"
+                onChange={(e) =>
+                  e.target.files && setImage2(e.target.files[0])
+                }
+              />
+              <Image
+                className="max-w-24 cursor-pointer"
+                src={image2 ? URL.createObjectURL(image2) : assets.upload_area}
+                alt="Image 2"
+                width={100}
+                height={100}
+              />
+            </label>
+          </div>
+        </div>
+
+        {/* Product Name */}
+        <div className="flex flex-col gap-1 max-w-md">
+          <label className="text-base font-medium" htmlFor="product-name">
+            Product Name
+          </label>
+          <input
+            id="product-name"
+            type="text"
+            placeholder="Type here"
+            className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            required
+          />
+        </div>
+
+        {/* Description */}
+        <div className="flex flex-col gap-1 max-w-md">
+          <label
+            className="text-base font-medium"
+            htmlFor="product-description"
+          >
+            Product Description
+          </label>
+          <textarea
+            id="product-description"
+            rows={4}
+            className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40 resize-none"
+            placeholder="Type here"
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+            required
+          ></textarea>
+        </div>
+
+        {/* Category & Size & Price */}
+        <div className="flex items-center gap-5 flex-wrap">
+          <div className="flex flex-col gap-1 w-32">
+            <label className="text-base font-medium" htmlFor="category">
+              Category
+            </label>
+            <select
+              id="category"
+              className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+              onChange={(e) => setCategory(e.target.value)}
+              value={category}
+            >
+              <option value="Short Kurtas">Short Kurtas</option>
+              <option value="Long Kurtas">Long Kurtas</option>
+              <option value="Bottom Wear<">Bottom Wear</option>
+              <option value="Dresses">Dresses</option>
+              <option value="Kurta Sets">Kurta Sets</option>
+            </select>
+          </div>
+           <div className="flex flex-col gap-1 w-32">
+            <label className="text-base font-medium" htmlFor="category">
+             Febric Category
+            </label>
+            <select
+              id="category"
+              className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+              onChange={(e) => setFebricCategory(e.target.value)}
+              value={category}
+            >
+              <option value="Cotton">Cotton</option>
+              <option value="Chanderi">Chanderi</option>
+              <option value="Georgette">Georgette</option>
+              <option value="Modal<">Modal</option>
+              <option value="Orgnaza">Orgnaza</option>
+              <option value="Mulmul">Mulmul</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-1 w-32">
+            <label className="text-base font-medium" htmlFor="size">
+              Size
+            </label>
+            <select
+              id="size"
+              className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+              onChange={(e) => setSize(e.target.value)}
+              value={size}
+            >
+              <option value="XS">XS</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="2XL">2XL</option>
+              <option value="3XL">3XL</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-1 w-32">
+            <label className="text-base font-medium" htmlFor="product-price">
+              Product Price
+            </label>
+            <input
+              id="product-price"
+              type="number"
+              placeholder="0"
+              className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+              onChange={(e) => setPrice(e.target.value)}
+              value={price}
+              required
+            />
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="px-8 py-2.5 bg-orange-600 text-white font-medium rounded"
+        >
+          ADD
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default AddProduct;
