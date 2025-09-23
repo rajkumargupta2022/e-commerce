@@ -6,8 +6,8 @@ const ProductSchema = new mongoose.Schema({
   febricCategory: { type: String, required: true },
   price: { type: Number, required: true },
   size: { type: String, required: true },
-  image1: { type: String, required: true }, // make false if optional
-  image2: { type: String },
+  images: { type: [String]},
+  quantity: { type: Number,required: true },
   description: { type: String }
 });
 

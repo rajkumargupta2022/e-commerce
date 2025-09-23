@@ -7,7 +7,7 @@ import NewsLetter from "@/components/NewsLetter";
 import FeaturedProduct from "@/components/FeaturedProduct";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Bounce, ToastContainer } from "react-toastify";
+
 
 const Home = () => {
   return (
@@ -19,19 +19,6 @@ const Home = () => {
         <FeaturedProduct />
         <Banner />
         <NewsLetter />
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          transition={Bounce}
-        />
       </div>
       <Footer />
     </>

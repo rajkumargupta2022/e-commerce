@@ -87,12 +87,14 @@ const ProductSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mong
         type: String,
         required: true
     },
-    image1: {
-        type: String,
-        required: true
+    images: {
+        type: [
+            String
+        ]
     },
-    image2: {
-        type: String
+    quantity: {
+        type: Number,
+        required: true
     },
     description: {
         type: String
@@ -204,10 +206,13 @@ async function saveFile(file) {
 }
 async function POST(req) {
     try {
-        console.log("i am here ");
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])();
         // 👇 Otherwise → normal add product
         const formData = await req.formData();
+        const imageFiles = formData.getAll("images");
+        console.log("====== Received Files ======", imageFiles);
+        // 👇 await Promise.all directly instead of wrapping in async/await in map
+        const savedImages = await Promise.all(imageFiles.map((file)=>saveFile(file)));
         const product = new __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$models$2f$Products$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"]({
             name: formData.get("name"),
             category: formData.get("category"),
@@ -215,8 +220,8 @@ async function POST(req) {
             price: formData.get("price"),
             size: formData.get("size"),
             description: formData.get("description"),
-            image1: await saveFile(formData.get("image1")),
-            image2: await saveFile(formData.get("image2"))
+            quantity: formData.get("quantity"),
+            images: savedImages
         });
         await product.save();
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
@@ -237,6 +242,7 @@ async function POST(req) {
 async function GET() {
     try {
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$mongodb$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])();
+        console.log("i am here");
         const products = await __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$models$2f$Products$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].find();
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true,

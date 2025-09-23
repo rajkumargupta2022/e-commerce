@@ -9,7 +9,7 @@ export async function GET(req, { params }) {
     const { id } = params; // get id from dynamic route
 
     const product = await Product.findById(id);
-
+   
     if (!product) {
       return NextResponse.json({data:[],success:false}, { status: 404 });
     }

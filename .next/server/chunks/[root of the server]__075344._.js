@@ -87,12 +87,14 @@ const ProductSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mong
         type: String,
         required: true
     },
-    image1: {
-        type: String,
-        required: true
+    images: {
+        type: [
+            String
+        ]
     },
-    image2: {
-        type: String
+    quantity: {
+        type: Number,
+        required: true
     },
     description: {
         type: String
@@ -174,7 +176,7 @@ async function GET(req) {
             category
         });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            products,
+            data: products,
             success: true
         }, {
             status: 200

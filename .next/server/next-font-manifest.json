@@ -1,5 +1,8 @@
 {
   "app": {
+    "[project]/app/cart/page": [
+      "static/media/QGYvz_MVcBeNP4NJtEtqUYLknw-s.p.07dd827d.woff2"
+    ],
     "[project]/app/_not-found/page": [
       "static/media/QGYvz_MVcBeNP4NJtEtqUYLknw-s.p.07dd827d.woff2"
     ]

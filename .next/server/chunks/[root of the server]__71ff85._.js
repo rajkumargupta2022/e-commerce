@@ -126,12 +126,14 @@ const ProductSchema = new __TURBOPACK__imported__module__$5b$externals$5d2f$mong
         type: String,
         required: true
     },
-    image1: {
-        type: String,
-        required: true
+    images: {
+        type: [
+            String
+        ]
     },
-    image2: {
-        type: String
+    quantity: {
+        type: Number,
+        required: true
     },
     description: {
         type: String

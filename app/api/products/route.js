@@ -25,11 +25,20 @@ async function saveFile(file) {
 // -------------------- ADD / UPDATE PRODUCT --------------------
 export async function POST(req) {
   try {
-  console.log("i am here ")
     await connect();
-
+    
     // 👇 Otherwise → normal add product
     const formData = await req.formData();
+
+    const imageFiles = formData.getAll("images");
+console.log("====== Received Files ======", imageFiles);
+
+// 👇 await Promise.all directly instead of wrapping in async/await in map
+const savedImages = await Promise.all(
+  imageFiles.map(file => saveFile(file))
+);
+
+   
     const product = new Product({
       name: formData.get("name"),
       category: formData.get("category"),
@@ -37,8 +46,8 @@ export async function POST(req) {
       price: formData.get("price"),
       size: formData.get("size"),
       description: formData.get("description"),
-      image1: await saveFile(formData.get("image1")),
-      image2: await saveFile(formData.get("image2")),
+      quantity: formData.get("quantity"),
+     images: savedImages,
     });
 
     await product.save();
@@ -53,6 +62,7 @@ export async function POST(req) {
 export async function GET() {
   try {
     await connect();
+    console.log("i am here")
     const products = await Product.find();
     return NextResponse.json({success:true,
       data: products }, { status: 200 });

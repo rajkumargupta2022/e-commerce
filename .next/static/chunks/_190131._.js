@@ -1841,7 +1841,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 ;
 var _s = __turbopack_refresh__.signature(), _s1 = __turbopack_refresh__.signature();
-'use client';
+"use client";
 ;
 ;
 ;
@@ -1865,51 +1865,48 @@ const AppContextProvider = (props)=>{
     const fetchUserData = async ()=>{
         setUserData(__TURBOPACK__imported__module__$5b$project$5d2f$assets$2f$assets$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["userDummyData"]);
     };
-    const addToCart = async (itemId)=>{
-        let cartData = structuredClone(cartItems);
-        if (cartData[itemId]) {
-            cartData[itemId] += 1;
-        } else {
-            cartData[itemId] = 1;
-        }
-        setCartItems(cartData);
+    const fetchCartData = async ()=>{
+        let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+            cart: [],
+            cartTotal: 0
+        };
+        setCartItems(cartStore);
     };
-    const updateCartQuantity = async (itemId, quantity)=>{
-        let cartData = structuredClone(cartItems);
-        if (quantity === 0) {
-            delete cartData[itemId];
+    const addToCart = async (item)=>{
+        // Get previous cart store
+        let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+            cart: [],
+            cartTotal: 0
+        };
+        let cartData = cartStore.cart;
+        let flag = false;
+        if (cartData.length === 0) {
+            item.cartQuantity = 1;
+            cartData.push(item);
         } else {
-            cartData[itemId] = quantity;
-        }
-        setCartItems(cartData);
-    };
-    const getCartCount = ()=>{
-        let totalCount = 0;
-        for(const items in cartItems){
-            if (cartItems[items] > 0) {
-                totalCount += cartItems[items];
+            for(let i = 0; i < cartData.length; i++){
+                if (cartData[i]._id === item._id) {
+                    cartData[i].cartQuantity++;
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag) {
+                item.cartQuantity = 1;
+                cartData.push(item);
             }
         }
-        return totalCount;
-    };
-    const getCartAmount = ()=>{
-        let totalAmount = 0;
-        for(const items in cartItems){
-            let itemInfo = products.find((product)=>product._id === items);
-            if (cartItems[items] > 0) {
-                totalAmount += itemInfo.offerPrice * cartItems[items];
-            }
-        }
-        return Math.floor(totalAmount * 100) / 100;
+        const cartTotal = cartData.reduce((sum, cartItem)=>sum + cartItem.price * cartItem.cartQuantity, 0);
+        cartStore = {
+            cartTotal,
+            cart: cartData
+        };
+        localStorage.setItem("cartStore", JSON.stringify(cartStore));
+        setCartItems(cartStore);
     };
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "AppContextProvider.useEffect": ()=>{
-            fetchProductData();
-        }
-    }["AppContextProvider.useEffect"], []);
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "AppContextProvider.useEffect": ()=>{
-            fetchUserData();
+            fetchCartData();
         }
     }["AppContextProvider.useEffect"], []);
     const value = {
@@ -1924,20 +1921,18 @@ const AppContextProvider = (props)=>{
         cartItems,
         setCartItems,
         addToCart,
-        updateCartQuantity,
-        getCartCount,
-        getCartAmount
+        fetchCartData
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AppContext.Provider, {
         value: value,
         children: props.children
     }, void 0, false, {
         fileName: "[project]/context/AppContext.jsx",
-        lineNumber: 95,
-        columnNumber: 9
+        lineNumber: 102,
+        columnNumber: 5
     }, this);
 };
-_s1(AppContextProvider, "e1prcsRLHWKffekqc5Apq6PCTp8=", false, function() {
+_s1(AppContextProvider, "iAmX5RG+BzoJjgoK3iaUf+MQfmI=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];

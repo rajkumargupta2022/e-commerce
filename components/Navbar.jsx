@@ -73,9 +73,9 @@ const Navbar = () => {
         <Link href="/" className="hover:text-gray-900 transition">
           Home
         </Link>
-        <Link href="/all-products" className="hover:text-gray-900 transition">
+        {/* <Link href="/all-products" className="hover:text-gray-900 transition">
           New Arrivals
-        </Link>
+        </Link> */}
 
        {/* Shop by Category */}
 <div className="relative" ref={categoryButtonRef}>

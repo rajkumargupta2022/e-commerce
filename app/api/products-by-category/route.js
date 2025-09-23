@@ -21,7 +21,7 @@ export async function GET(req) {
     // find products by category
     const products = await Product.find({ category });
 
-    return NextResponse.json({ products, success: true }, { status: 200 });
+    return NextResponse.json({ data:products, success: true }, { status: 200 });
   } catch (error) {
     console.error("Error fetching products:", error);
     return NextResponse.json({ error: "Failed to fetch products" }, { status: 500 });
