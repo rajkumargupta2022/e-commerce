@@ -1838,10 +1838,12 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$assets$2f$assets$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/assets/assets.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hot$2d$toast$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/react-hot-toast/dist/index.mjs [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 ;
 var _s = __turbopack_refresh__.signature(), _s1 = __turbopack_refresh__.signature();
 "use client";
+;
 ;
 ;
 ;
@@ -1902,7 +1904,23 @@ const AppContextProvider = (props)=>{
             cart: cartData
         };
         localStorage.setItem("cartStore", JSON.stringify(cartStore));
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hot$2d$toast$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].success(item.name + " added successfully in cart");
         setCartItems(cartStore);
+    };
+    const deleteCart = (_id)=>{
+        let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+            cart: [],
+            cartTotal: 0
+        };
+        if (cartStore?.cart?.length > 0) {
+            let filtered = cartStore.cart.filter((item)=>{
+                return item._id !== _id;
+            });
+            cartStore.cart = filtered;
+            localStorage.setItem("cartStore", JSON.stringify(cartStore));
+            setCartItems(cartStore);
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hot$2d$toast$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].success("Product delete successfully from cart");
+        }
     };
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "AppContextProvider.useEffect": ()=>{
@@ -1921,6 +1939,7 @@ const AppContextProvider = (props)=>{
         cartItems,
         setCartItems,
         addToCart,
+        deleteCart,
         fetchCartData
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AppContext.Provider, {
@@ -1928,7 +1947,7 @@ const AppContextProvider = (props)=>{
         children: props.children
     }, void 0, false, {
         fileName: "[project]/context/AppContext.jsx",
-        lineNumber: 102,
+        lineNumber: 111,
         columnNumber: 5
     }, this);
 };

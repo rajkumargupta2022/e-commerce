@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import { useAppContext } from "@/context/AppContext";
 
 const Cart = () => {
-  const { cartItems, addToCart } = useAppContext();
+  const { cartItems, addToCart,deleteCart,decreaseCartQuantity } = useAppContext();
 
   return (
     <>
@@ -55,18 +55,18 @@ const Cart = () => {
                               height={720}
                             />
                           </div>
-                          <button
+                          {/* <button
                             className="md:hidden text-xs text-orange-600 mt-1"
-                            onClick={() => addToCart(product)}
+                           onClick={() => deleteCart(product?._id)}
                           >
                             Remove
-                          </button>
+                          </button> */}
                         </div>
                         <div className="text-sm hidden md:block">
                           <p className="text-gray-800">{product?.name}</p>
                           <button
                             className="text-xs text-orange-600 mt-1"
-                            onClick={() => addToCart(product)}
+                           onClick={() => deleteCart(product?._id)}
                           >
                             Remove
                           </button>
@@ -77,19 +77,14 @@ const Cart = () => {
                       </td>
                       <td className="py-4 md:px-4 px-1">
                         <div className="flex items-center md:gap-2 gap-1">
-                          <button onClick={() => addToCart(product)}>
+                          <button onClick={() => decreaseCartQuantity(product?._id)}>
                             <Image
                               src={assets.decrease_arrow}
                               alt="decrease_arrow"
                               className="w-4 h-4"
                             />
                           </button>
-                          <input
-                            onChange={(e) => addToCart(product)}
-                            type="number"
-                            value={product.cartQuantity}
-                            className="w-8 border text-center appearance-none"
-                          ></input>
+                          <p>{product.cartQuantity}</p>
                           <button onClick={() => addToCart(product)}>
                             <Image
                               src={assets.increase_arrow}

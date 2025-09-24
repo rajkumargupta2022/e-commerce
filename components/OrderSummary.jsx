@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 const OrderSummary = () => {
 
-  const { currency, router,  } = useAppContext()
+  const { currency, router,cartItems  } = useAppContext()
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -68,7 +68,7 @@ const OrderSummary = () => {
                 ))}
                 <li
                   onClick={() => router.push("/add-address")}
-                  className="px-4 py-2 hover:bg-gray-500/10 cursor-pointer text-center"
+                  className="px-4 py-2  cursor-pointer text-center bg-orange-500 text-white"
                 >
                   + Add New Address
                 </li>
@@ -77,7 +77,7 @@ const OrderSummary = () => {
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <label className="text-base font-medium uppercase text-gray-600 block mb-2">
             Promo Code
           </label>
@@ -91,26 +91,26 @@ const OrderSummary = () => {
               Apply
             </button>
           </div>
-        </div>
+        </div> */}
 
         <hr className="border-gray-500/30 my-5" />
 
         <div className="space-y-4">
           <div className="flex justify-between text-base font-medium">
-            <p className="uppercase text-gray-600">Items {5}</p>
-            <p className="text-gray-800">{currency}{500}</p>
+            <p className="uppercase text-gray-600">Items {cartItems?.cart?.length}</p>
+            <p className="text-gray-800">{cartItems?.cartTotal}</p>
           </div>
           <div className="flex justify-between">
             <p className="text-gray-600">Shipping Fee</p>
             <p className="font-medium text-gray-800">Free</p>
           </div>
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <p className="text-gray-600">Tax (2%)</p>
             <p className="font-medium text-gray-800">{currency}{23 * 0.02}</p>
-          </div>
+          </div> */}
           <div className="flex justify-between text-lg md:text-xl font-medium border-t pt-3">
             <p>Total</p>
-            <p>{currency}{+ Math.floor(5 * 0.02)}</p>
+            <p>{cartItems?.cartTotal}</p>
           </div>
         </div>
       </div>

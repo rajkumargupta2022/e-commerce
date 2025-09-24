@@ -19,7 +19,7 @@ var _s = __turbopack_refresh__.signature();
 ;
 const OrderSummary = ()=>{
     _s();
-    const { currency, router } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$context$2f$AppContext$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAppContext"])();
+    const { currency, router, cartItems } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$context$2f$AppContext$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAppContext"])();
     const [selectedAddress, setSelectedAddress] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isDropdownOpen, setIsDropdownOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [userAddresses, setUserAddresses] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
@@ -130,7 +130,7 @@ const OrderSummary = ()=>{
                                                 }, this)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
                                                 onClick: ()=>router.push("/add-address"),
-                                                className: "px-4 py-2 hover:bg-gray-500/10 cursor-pointer text-center",
+                                                className: "px-4 py-2  cursor-pointer text-center bg-orange-500 text-white",
                                                 children: "+ Add New Address"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/OrderSummary.jsx",
@@ -155,48 +155,6 @@ const OrderSummary = ()=>{
                         lineNumber: 37,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                className: "text-base font-medium uppercase text-gray-600 block mb-2",
-                                children: "Promo Code"
-                            }, void 0, false, {
-                                fileName: "[project]/components/OrderSummary.jsx",
-                                lineNumber: 81,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex flex-col items-start gap-3",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                        type: "text",
-                                        placeholder: "Enter promo code",
-                                        className: "flex-grow w-full outline-none p-2.5 text-gray-600 border"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/OrderSummary.jsx",
-                                        lineNumber: 85,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        className: "bg-orange-600 text-white px-9 py-2 hover:bg-orange-700",
-                                        children: "Apply"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/OrderSummary.jsx",
-                                        lineNumber: 90,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/OrderSummary.jsx",
-                                lineNumber: 84,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/OrderSummary.jsx",
-                        lineNumber: 80,
-                        columnNumber: 9
-                    }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("hr", {
                         className: "border-gray-500/30 my-5"
                     }, void 0, false, {
@@ -214,7 +172,7 @@ const OrderSummary = ()=>{
                                         className: "uppercase text-gray-600",
                                         children: [
                                             "Items ",
-                                            5
+                                            cartItems?.cart?.length
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/OrderSummary.jsx",
@@ -223,11 +181,8 @@ const OrderSummary = ()=>{
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                         className: "text-gray-800",
-                                        children: [
-                                            currency,
-                                            500
-                                        ]
-                                    }, void 0, true, {
+                                        children: cartItems?.cartTotal
+                                    }, void 0, false, {
                                         fileName: "[project]/components/OrderSummary.jsx",
                                         lineNumber: 101,
                                         columnNumber: 13
@@ -264,34 +219,6 @@ const OrderSummary = ()=>{
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex justify-between",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-gray-600",
-                                        children: "Tax (2%)"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/OrderSummary.jsx",
-                                        lineNumber: 108,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "font-medium text-gray-800",
-                                        children: [
-                                            currency,
-                                            23 * 0.02
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/components/OrderSummary.jsx",
-                                        lineNumber: 109,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/OrderSummary.jsx",
-                                lineNumber: 107,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex justify-between text-lg md:text-xl font-medium border-t pt-3",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -302,11 +229,8 @@ const OrderSummary = ()=>{
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        children: [
-                                            currency,
-                                            +Math.floor(5 * 0.02)
-                                        ]
-                                    }, void 0, true, {
+                                        children: cartItems?.cartTotal
+                                    }, void 0, false, {
                                         fileName: "[project]/components/OrderSummary.jsx",
                                         lineNumber: 113,
                                         columnNumber: 13
@@ -345,7 +269,7 @@ const OrderSummary = ()=>{
         columnNumber: 5
     }, this);
 };
-_s(OrderSummary, "HJHIk+vgoglAsNSIlBANk1VEfzc=", false, function() {
+_s(OrderSummary, "E2buSCRxHyUrlCrzjkwTk0miXzk=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$context$2f$AppContext$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAppContext"]
     ];
@@ -382,7 +306,7 @@ var _s = __turbopack_refresh__.signature();
 ;
 const Navbar = ()=>{
     _s();
-    const { isSeller, router } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$context$2f$AppContext$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAppContext"])();
+    const { isSeller, router, cartItems } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$context$2f$AppContext$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAppContext"])();
     const [isCategoryOpen, setIsCategoryOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isFebricOpen, setIsFebricOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const categoryButtonRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
@@ -457,7 +381,7 @@ const Navbar = ()=>{
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                 className: "cursor-pointer w-28 md:w-32",
-                onClick: ()=>router.push('/'),
+                onClick: ()=>router.push("/"),
                 src: __TURBOPACK__imported__module__$5b$project$5d2f$assets$2f$assets$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assets"].logo,
                 alt: "logo"
             }, void 0, false, {
@@ -498,19 +422,19 @@ const Navbar = ()=>{
                                             d: "M19 9l-7 7-7-7"
                                         }, void 0, false, {
                                             fileName: "[project]/components/Navbar.jsx",
-                                            lineNumber: 88,
-                                            columnNumber: 7
+                                            lineNumber: 94,
+                                            columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/Navbar.jsx",
                                         lineNumber: 87,
-                                        columnNumber: 5
+                                        columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/Navbar.jsx",
                                 lineNumber: 82,
-                                columnNumber: 3
+                                columnNumber: 11
                             }, this),
                             isCategoryOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "absolute top-full mt-2 left-0 w-48 bg-white border border-gray-200 shadow-lg rounded-md z-50",
@@ -522,29 +446,29 @@ const Navbar = ()=>{
                                                 children: category.name
                                             }, void 0, false, {
                                                 fileName: "[project]/components/Navbar.jsx",
-                                                lineNumber: 97,
-                                                columnNumber: 13
+                                                lineNumber: 107,
+                                                columnNumber: 21
                                             }, this)
                                         }, category.name, false, {
                                             fileName: "[project]/components/Navbar.jsx",
-                                            lineNumber: 96,
-                                            columnNumber: 11
+                                            lineNumber: 106,
+                                            columnNumber: 19
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/components/Navbar.jsx",
-                                    lineNumber: 94,
-                                    columnNumber: 7
+                                    lineNumber: 104,
+                                    columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/Navbar.jsx",
-                                lineNumber: 93,
-                                columnNumber: 5
+                                lineNumber: 103,
+                                columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/Navbar.jsx",
                         lineNumber: 81,
-                        columnNumber: 1
+                        columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "relative",
@@ -567,19 +491,19 @@ const Navbar = ()=>{
                                             d: "M19 9l-7 7-7-7"
                                         }, void 0, false, {
                                             fileName: "[project]/components/Navbar.jsx",
-                                            lineNumber: 118,
-                                            columnNumber: 7
+                                            lineNumber: 134,
+                                            columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/Navbar.jsx",
-                                        lineNumber: 117,
-                                        columnNumber: 5
+                                        lineNumber: 127,
+                                        columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/Navbar.jsx",
-                                lineNumber: 112,
-                                columnNumber: 3
+                                lineNumber: 122,
+                                columnNumber: 11
                             }, this),
                             isFebricOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "absolute top-full mt-2 left-0 w-48 bg-white border border-gray-200 shadow-lg rounded-md z-50",
@@ -591,29 +515,29 @@ const Navbar = ()=>{
                                                 children: item.name
                                             }, void 0, false, {
                                                 fileName: "[project]/components/Navbar.jsx",
-                                                lineNumber: 127,
-                                                columnNumber: 13
+                                                lineNumber: 147,
+                                                columnNumber: 21
                                             }, this)
                                         }, item.name, false, {
                                             fileName: "[project]/components/Navbar.jsx",
-                                            lineNumber: 126,
-                                            columnNumber: 11
+                                            lineNumber: 146,
+                                            columnNumber: 19
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/components/Navbar.jsx",
-                                    lineNumber: 124,
-                                    columnNumber: 7
+                                    lineNumber: 144,
+                                    columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/components/Navbar.jsx",
-                                lineNumber: 123,
-                                columnNumber: 5
+                                lineNumber: 143,
+                                columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/Navbar.jsx",
-                        lineNumber: 111,
-                        columnNumber: 1
+                        lineNumber: 121,
+                        columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                         href: "/",
@@ -621,16 +545,16 @@ const Navbar = ()=>{
                         children: "Contact"
                     }, void 0, false, {
                         fileName: "[project]/components/Navbar.jsx",
-                        lineNumber: 141,
+                        lineNumber: 160,
                         columnNumber: 9
                     }, this),
                     isSeller && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                        onClick: ()=>router.push('/seller'),
+                        onClick: ()=>router.push("/seller"),
                         className: "text-xs border px-4 py-1.5 rounded-full",
                         children: "Seller Dashboard"
                     }, void 0, false, {
                         fileName: "[project]/components/Navbar.jsx",
-                        lineNumber: 146,
+                        lineNumber: 165,
                         columnNumber: 11
                     }, this)
                 ]
@@ -640,15 +564,33 @@ const Navbar = ()=>{
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                className: "hidden md:flex items-center gap-4 ",
+                className: "hidden md:flex items-center gap-6 cursor-pointer",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                        className: "w-4 h-4",
-                        src: __TURBOPACK__imported__module__$5b$project$5d2f$assets$2f$assets$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assets"].search_icon,
-                        alt: "search icon"
-                    }, void 0, false, {
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "relative flex flex-col items-center",
+                        onClick: ()=>router.push("/cart"),
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                className: "w-5 h-5 ",
+                                src: __TURBOPACK__imported__module__$5b$project$5d2f$assets$2f$assets$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assets"].cart,
+                                alt: "cart icon"
+                            }, void 0, false, {
+                                fileName: "[project]/components/Navbar.jsx",
+                                lineNumber: 180,
+                                columnNumber: 11
+                            }, this),
+                            cartItems?.cart?.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "absolute -top-3 left-1/2 -translate-x-1/2    bg-red-500 text-white text-xs     rounded-full px-2 py-0.5 shadow",
+                                children: cartItems.cart.length
+                            }, void 0, false, {
+                                fileName: "[project]/components/Navbar.jsx",
+                                lineNumber: 188,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
                         fileName: "[project]/components/Navbar.jsx",
-                        lineNumber: 156,
+                        lineNumber: 178,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -659,32 +601,32 @@ const Navbar = ()=>{
                                 alt: "user icon"
                             }, void 0, false, {
                                 fileName: "[project]/components/Navbar.jsx",
-                                lineNumber: 158,
+                                lineNumber: 199,
                                 columnNumber: 11
                             }, this),
                             "Account"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/Navbar.jsx",
-                        lineNumber: 157,
+                        lineNumber: 198,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/Navbar.jsx",
-                lineNumber: 155,
+                lineNumber: 174,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex items-center md:hidden gap-3",
                 children: [
                     isSeller && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                        onClick: ()=>router.push('/seller'),
+                        onClick: ()=>router.push("/seller"),
                         className: "text-xs border px-4 py-1.5 rounded-full",
                         children: "Seller Dashboard"
                     }, void 0, false, {
                         fileName: "[project]/components/Navbar.jsx",
-                        lineNumber: 165,
+                        lineNumber: 206,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -695,20 +637,20 @@ const Navbar = ()=>{
                                 alt: "user icon"
                             }, void 0, false, {
                                 fileName: "[project]/components/Navbar.jsx",
-                                lineNumber: 173,
+                                lineNumber: 214,
                                 columnNumber: 11
                             }, this),
                             "Account"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/Navbar.jsx",
-                        lineNumber: 172,
+                        lineNumber: 213,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/Navbar.jsx",
-                lineNumber: 163,
+                lineNumber: 204,
                 columnNumber: 7
             }, this)
         ]
@@ -718,7 +660,7 @@ const Navbar = ()=>{
         columnNumber: 5
     }, this);
 };
-_s(Navbar, "SVivH0agb5GqP0QR9EYXw9cSBus=", false, function() {
+_s(Navbar, "NC8ox30Un+pgAEm8hp0PFuzvgBg=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$context$2f$AppContext$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAppContext"]
     ];
@@ -757,7 +699,7 @@ var _s = __turbopack_refresh__.signature();
 ;
 const Cart = ()=>{
     _s();
-    const { cartItems, addToCart } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$context$2f$AppContext$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAppContext"])();
+    const { cartItems, addToCart, deleteCart, decreaseCartQuantity } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$context$2f$AppContext$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAppContext"])();
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Navbar$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
@@ -869,36 +811,25 @@ const Cart = ()=>{
                                                             className: "flex items-center gap-4 py-4 md:px-4 px-1",
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                            className: "rounded-lg overflow-hidden bg-gray-500/10 p-2",
-                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                                                src: `/uploads/${product.images[0]}`,
-                                                                                alt: product.name,
-                                                                                className: "w-16 h-auto object-cover mix-blend-multiply",
-                                                                                width: 1280,
-                                                                                height: 720
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/app/cart/page.jsx",
-                                                                                lineNumber: 50,
-                                                                                columnNumber: 29
-                                                                            }, this)
+                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "rounded-lg overflow-hidden bg-gray-500/10 p-2",
+                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                                            src: `/uploads/${product.images[0]}`,
+                                                                            alt: product.name,
+                                                                            className: "w-16 h-auto object-cover mix-blend-multiply",
+                                                                            width: 1280,
+                                                                            height: 720
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/cart/page.jsx",
-                                                                            lineNumber: 49,
-                                                                            columnNumber: 27
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                            className: "md:hidden text-xs text-orange-600 mt-1",
-                                                                            onClick: ()=>addToCart(product),
-                                                                            children: "Remove"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/app/cart/page.jsx",
-                                                                            lineNumber: 58,
-                                                                            columnNumber: 27
+                                                                            lineNumber: 50,
+                                                                            columnNumber: 29
                                                                         }, this)
-                                                                    ]
-                                                                }, void 0, true, {
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/app/cart/page.jsx",
+                                                                        lineNumber: 49,
+                                                                        columnNumber: 27
+                                                                    }, this)
+                                                                }, void 0, false, {
                                                                     fileName: "[project]/app/cart/page.jsx",
                                                                     lineNumber: 48,
                                                                     columnNumber: 25
@@ -916,7 +847,7 @@ const Cart = ()=>{
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                             className: "text-xs text-orange-600 mt-1",
-                                                                            onClick: ()=>addToCart(product),
+                                                                            onClick: ()=>deleteCart(product?._id),
                                                                             children: "Remove"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/cart/page.jsx",
@@ -952,7 +883,7 @@ const Cart = ()=>{
                                                                 className: "flex items-center md:gap-2 gap-1",
                                                                 children: [
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                        onClick: ()=>addToCart(product),
+                                                                        onClick: ()=>decreaseCartQuantity(product?._id),
                                                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                                                             src: __TURBOPACK__imported__module__$5b$project$5d2f$assets$2f$assets$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assets"].decrease_arrow,
                                                                             alt: "decrease_arrow",
@@ -967,11 +898,8 @@ const Cart = ()=>{
                                                                         lineNumber: 80,
                                                                         columnNumber: 27
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                                        onChange: (e)=>addToCart(product),
-                                                                        type: "number",
-                                                                        value: product.cartQuantity,
-                                                                        className: "w-8 border text-center appearance-none"
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                        children: product.cartQuantity
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/cart/page.jsx",
                                                                         lineNumber: 87,
@@ -985,12 +913,12 @@ const Cart = ()=>{
                                                                             className: "w-4 h-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/cart/page.jsx",
-                                                                            lineNumber: 94,
+                                                                            lineNumber: 89,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/cart/page.jsx",
-                                                                        lineNumber: 93,
+                                                                        lineNumber: 88,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
@@ -1012,7 +940,7 @@ const Cart = ()=>{
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/cart/page.jsx",
-                                                            lineNumber: 102,
+                                                            lineNumber: 97,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
@@ -1048,14 +976,14 @@ const Cart = ()=>{
                                         alt: "arrow_right_icon_colored"
                                     }, void 0, false, {
                                         fileName: "[project]/app/cart/page.jsx",
-                                        lineNumber: 115,
+                                        lineNumber: 110,
                                         columnNumber: 13
                                     }, this),
                                     "Continue Shopping"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/cart/page.jsx",
-                                lineNumber: 111,
+                                lineNumber: 106,
                                 columnNumber: 11
                             }, this)
                         ]
@@ -1066,7 +994,7 @@ const Cart = ()=>{
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$OrderSummary$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/app/cart/page.jsx",
-                        lineNumber: 123,
+                        lineNumber: 118,
                         columnNumber: 9
                     }, this)
                 ]
@@ -1078,7 +1006,7 @@ const Cart = ()=>{
         ]
     }, void 0, true);
 };
-_s(Cart, "rbdIJwxeUU3ySKIiF996ywBQ3Z4=", false, function() {
+_s(Cart, "FuJFsGJok+qmlQYpm+xjsdPa+Dc=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$context$2f$AppContext$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAppContext"]
     ];

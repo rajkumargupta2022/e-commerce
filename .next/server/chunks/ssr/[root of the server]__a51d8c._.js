@@ -14,7 +14,8 @@ const JWT_SECRET = "your_secret_key";
 const mainUrl = "http://localhost:3000/api/";
 const endPoints = {
     products: "products",
-    updateProducts: "update-products"
+    updateProducts: "update-products",
+    productsByCategory: "products-by-category"
 };
 }}),
 "[externals]/util [external] (util, cjs)": (function(__turbopack_context__) {

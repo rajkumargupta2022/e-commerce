@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useRef, useEffect } from "react";
 import { assets } from "@/assets/assets";
 import Link from "next/link";
@@ -6,7 +6,7 @@ import { useAppContext } from "@/context/AppContext";
 import Image from "next/image";
 
 const Navbar = () => {
-  const { isSeller, router } = useAppContext();
+  const { isSeller, router, cartItems } = useAppContext();
 
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isFebricOpen, setIsFebricOpen] = useState(false);
@@ -64,7 +64,7 @@ const Navbar = () => {
     <nav className="sticky top-0 bg-white z-50 flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-gray-300 text-gray-700">
       <Image
         className="cursor-pointer w-28 md:w-32"
-        onClick={() => router.push('/')}
+        onClick={() => router.push("/")}
         src={assets.logo}
         alt="logo"
       />
@@ -77,66 +77,85 @@ const Navbar = () => {
           New Arrivals
         </Link> */}
 
-       {/* Shop by Category */}
-<div className="relative" ref={categoryButtonRef}>
-  <button
-    onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-    className="hover:text-gray-900 transition flex items-center gap-1"
-  >
-    Shop by Category
-    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-    </svg>
-  </button>
-
-  {isCategoryOpen && (
-    <div className="absolute top-full mt-2 left-0 w-48 bg-white border border-gray-200 shadow-lg rounded-md z-50">
-      <ul>
-        {categories.map((category) => (
-          <li key={category.name}>
-            <button
-              onClick={() => handleCategoryClick(category.href)}
-              className="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
+        {/* Shop by Category */}
+        <div className="relative" ref={categoryButtonRef}>
+          <button
+            onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+            className="hover:text-gray-900 transition flex items-center gap-1"
+          >
+            Shop by Category
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
             >
-              {category.name}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-</div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
 
-{/* Short by Febric */}
-<div className="relative" ref={febricButtonRef}>
-  <button
-    onClick={() => setIsFebricOpen(!isFebricOpen)}
-    className="hover:text-gray-900 transition flex items-center gap-1"
-  >
-    Short by Febric
-    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-    </svg>
-  </button>
+          {isCategoryOpen && (
+            <div className="absolute top-full mt-2 left-0 w-48 bg-white border border-gray-200 shadow-lg rounded-md z-50">
+              <ul>
+                {categories.map((category) => (
+                  <li key={category.name}>
+                    <button
+                      onClick={() => handleCategoryClick(category.href)}
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
+                    >
+                      {category.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
 
-  {isFebricOpen && (
-    <div className="absolute top-full mt-2 left-0 w-48 bg-white border border-gray-200 shadow-lg rounded-md z-50">
-      <ul>
-        {febric.map((item) => (
-          <li key={item.name}>
-            <button
-              onClick={() => handleFebricClick(item.href)}
-              className="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
+        {/* Short by Febric */}
+        <div className="relative" ref={febricButtonRef}>
+          <button
+            onClick={() => setIsFebricOpen(!isFebricOpen)}
+            className="hover:text-gray-900 transition flex items-center gap-1"
+          >
+            Short by Febric
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
             >
-              {item.name}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-</div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
 
+          {isFebricOpen && (
+            <div className="absolute top-full mt-2 left-0 w-48 bg-white border border-gray-200 shadow-lg rounded-md z-50">
+              <ul>
+                {febric.map((item) => (
+                  <li key={item.name}>
+                    <button
+                      onClick={() => handleFebricClick(item.href)}
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
+                    >
+                      {item.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
 
         <Link href="/" className="hover:text-gray-900 transition">
           Contact
@@ -144,7 +163,7 @@ const Navbar = () => {
 
         {isSeller && (
           <button
-            onClick={() => router.push('/seller')}
+            onClick={() => router.push("/seller")}
             className="text-xs border px-4 py-1.5 rounded-full"
           >
             Seller Dashboard
@@ -152,8 +171,30 @@ const Navbar = () => {
         )}
       </div>
 
-      <ul className="hidden md:flex items-center gap-4 ">
-        <Image className="w-4 h-4" src={assets.search_icon} alt="search icon" />
+      <ul
+        className="hidden md:flex items-center gap-6 cursor-pointer"
+        
+      >
+        <div className="relative flex flex-col items-center" onClick={() => router.push("/cart")}>
+          {/* Cart Icon */}
+          <Image
+            className="w-5 h-5 "
+            src={assets.cart}
+            alt="cart icon"
+          />
+
+          {/* Badge Above */}
+          {cartItems?.cart?.length > 0 && (
+            <span
+              className="absolute -top-3 left-1/2 -translate-x-1/2 
+                       bg-red-500 text-white text-xs  
+                       rounded-full px-2 py-0.5 shadow"
+            >
+              {cartItems.cart.length}
+            </span>
+          )}
+        </div>
+
         <button className="flex items-center gap-2 hover:text-gray-900 transition">
           <Image src={assets.user_icon} alt="user icon" />
           Account
@@ -163,7 +204,7 @@ const Navbar = () => {
       <div className="flex items-center md:hidden gap-3">
         {isSeller && (
           <button
-            onClick={() => router.push('/seller')}
+            onClick={() => router.push("/seller")}
             className="text-xs border px-4 py-1.5 rounded-full"
           >
             Seller Dashboard

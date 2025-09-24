@@ -2,6 +2,7 @@
 import { productsDummyData, userDummyData } from "@/assets/assets";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export const AppContext = createContext();
 
@@ -25,8 +26,8 @@ export const AppContextProvider = (props) => {
   const fetchUserData = async () => {
     setUserData(userDummyData);
   };
-    const fetchCartData= async () => {
-         let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+  const fetchCartData = async () => {
+    let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
       cart: [],
       cartTotal: 0,
     };
@@ -67,20 +68,54 @@ export const AppContextProvider = (props) => {
     );
     cartStore = { cartTotal, cart: cartData };
     localStorage.setItem("cartStore", JSON.stringify(cartStore));
-   
+    toast.success(item.name + " added successfully in cart");
     setCartItems(cartStore);
   };
+  const deleteCart = (_id) => {
+    let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+      cart: [],
+      cartTotal: 0,
+    };
+    if (cartStore?.cart?.length > 0) {
+      let filtered = cartStore.cart.filter((item) => {
+        return item._id !== _id;
+      });
+      cartStore.cart = filtered;
+      localStorage.setItem("cartStore", JSON.stringify(cartStore));
+      setCartItems(cartStore);
+      toast.success("Product delete successfully from cart");
+    }
+  };
+  const decreaseCartQuantity = (_id) => {
+  let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+    cart: [],
+    cartTotal: 0,
+  };
 
+  if (cartStore?.cart?.length > 0) {
+    let updatedCart = cartStore.cart.map((item) => {
+      if (item._id === _id) {
+        return { ...item, cartQuantity: item.cartQuantity - 1 };
+      }
+      return item;
+    }).filter(item => item.cartQuantity > 0); // remove if qty = 0
 
+    cartStore.cart = updatedCart;
 
+    // update localStorage
+    localStorage.setItem("cartStore", JSON.stringify(cartStore));
 
+    // update state
+    setCartItems(cartStore);
+
+    toast.success("Product quantity updated");
+  }
+};
 
 
   useEffect(() => {
-    fetchCartData()
+    fetchCartData();
   }, []);
-
-  
 
   const value = {
     currency,
@@ -94,8 +129,9 @@ export const AppContextProvider = (props) => {
     cartItems,
     setCartItems,
     addToCart,
-
-    fetchCartData
+    deleteCart,
+    fetchCartData,
+    decreaseCartQuantity
   };
 
   return (

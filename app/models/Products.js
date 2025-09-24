@@ -8,7 +8,8 @@ const ProductSchema = new mongoose.Schema({
   size: { type: String, required: true },
   images: { type: [String]},
   quantity: { type: Number,required: true },
-  description: { type: String }
+  description: { type: String },
+  color: { type: String }
 });
 
 // ✅ Always use the same name ("Product") to avoid OverwriteModelError

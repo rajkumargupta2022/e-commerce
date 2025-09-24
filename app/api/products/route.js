@@ -47,6 +47,7 @@ const savedImages = await Promise.all(
       size: formData.get("size"),
       description: formData.get("description"),
       quantity: formData.get("quantity"),
+      color: formData.get("color"),
      images: savedImages,
     });
 
