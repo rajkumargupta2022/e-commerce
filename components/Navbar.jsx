@@ -15,17 +15,17 @@ const Navbar = () => {
   const febricButtonRef = useRef(null);
 
   const categories = [
-    { name: "Short Kurtas", href: "/category/short-kurtas" },
-    { name: "Long Kurtas", href: "/category/long-kurtas" },
-    { name: "Bottom Wear", href: "/category/bottom-wear" },
-    { name: "Dresses", href: "/category/dresses" },
+    { name: "short-kurtas", href: "/category/short-kurtas" },
+    { name: "long-kurtas", href: "/category/long-kurtas" },
+    { name: "bottom-wear", href: "/category/bottom-wear" },
+    { name: "dresses", href: "/category/dresses" },
   ];
 
   const febric = [
-    { name: "Chanderic", href: "/category/chanderic" },
-    { name: "Cotton", href: "/category/cotton" },
-    { name: "Modal", href: "/category/modal" },
-    { name: "Organza", href: "/category/organza" },
+    { name: "chanderic", href: "/category/chanderic" },
+    { name: "cotton", href: "/category/cotton" },
+    { name: "modal", href: "/category/modal" },
+    { name: "organza", href: "/category/organza" },
   ];
 
   const handleCategoryClick = (href) => {
