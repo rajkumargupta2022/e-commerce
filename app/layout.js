@@ -1,7 +1,9 @@
 import { Outfit } from "next/font/google";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { AppContextProvider } from "@/context/AppContext";
+
 
 const outfit = Outfit({ subsets: ['latin'], weight: ["300", "400", "500"] })
 

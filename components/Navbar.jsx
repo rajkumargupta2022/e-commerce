@@ -4,6 +4,9 @@ import { assets } from "@/assets/assets";
 import Link from "next/link";
 import { useAppContext } from "@/context/AppContext";
 import Image from "next/image";
+import Signup from "./sign-up";
+import Login from "./Login";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { isSeller, router, cartItems } = useAppContext();
@@ -13,6 +16,9 @@ const Navbar = () => {
 
   const categoryButtonRef = useRef(null);
   const febricButtonRef = useRef(null);
+  const [token, setToken] = useState("");
+  const [loginModel, setLoginModel] = useState(false);
+ 
 
   const categories = [
     { name: "short-kurtas", href: "/category/short-kurtas" },
@@ -22,10 +28,10 @@ const Navbar = () => {
   ];
 
   const febric = [
-    { name: "chanderic", href: "/category/chanderic" },
-    { name: "cotton", href: "/category/cotton" },
-    { name: "modal", href: "/category/modal" },
-    { name: "organza", href: "/category/organza" },
+    { name: "chanderic", href: "/by-febric/chanderic" },
+    { name: "cotton", href: "/by-febric/cotton" },
+    { name: "modal", href: "/by-febric/modal" },
+    { name: "organza", href: "/by-febric/organza" },
   ];
 
   const handleCategoryClick = (href) => {
@@ -40,6 +46,7 @@ const Navbar = () => {
 
   // Close dropdowns when clicking outside
   useEffect(() => {
+    setToken(localStorage.getItem("token"));
     const handleClickOutside = (event) => {
       if (
         categoryButtonRef.current &&
@@ -59,6 +66,10 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  const logout = ()=>{
+    localStorage.removeItem("token")
+    toast.success("Logout successfully")
+  }
 
   return (
     <nav className="sticky top-0 bg-white z-50 flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-gray-300 text-gray-700">
@@ -171,17 +182,13 @@ const Navbar = () => {
         )}
       </div>
 
-      <ul
-        className="hidden md:flex items-center gap-6 cursor-pointer"
-        
-      >
-        <div className="relative flex flex-col items-center" onClick={() => router.push("/cart")}>
+      <ul className="hidden md:flex items-center gap-6 cursor-pointer">
+        <div
+          className="relative flex flex-col items-center"
+          onClick={() => router.push("/cart")}
+        >
           {/* Cart Icon */}
-          <Image
-            className="w-5 h-5 "
-            src={assets.cart}
-            alt="cart icon"
-          />
+          <Image className="w-5 h-5 " src={assets.cart} alt="cart icon" />
 
           {/* Badge Above */}
           {cartItems?.cart?.length > 0 && (
@@ -200,7 +207,15 @@ const Navbar = () => {
           Account
         </button>
       </ul>
-
+    {!token ? (
+          <button className="text-xs border px-4 py-1.5 rounded-full" onClick={()=>setLoginModel(true)}>
+            Login
+          </button>
+        ) : (
+          <button className="text-xs border px-4 py-1.5 rounded-full" onClick={logout}>
+            Logout
+          </button>
+        )}
       <div className="flex items-center md:hidden gap-3">
         {isSeller && (
           <button
@@ -214,7 +229,10 @@ const Navbar = () => {
           <Image src={assets.user_icon} alt="user icon" />
           Account
         </button>
+    
       </div>
+      <Login show={loginModel} setShow={setLoginModel}/>
+  
     </nav>
   );
 };

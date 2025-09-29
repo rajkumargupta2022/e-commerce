@@ -45,7 +45,7 @@ export async function POST(req) {
     });
 
     // Generate JWT token
-    const token = jwt.sign({ userId: newUser._id, email }, JWT_SECRET);
+    const token = jwt.sign({ userId: newUser._id, email,phoneNumber }, JWT_SECRET);
 
     return NextResponse.json(
       { success: true, msg: "User registered successfully", token },

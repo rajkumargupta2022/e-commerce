@@ -1,12 +1,14 @@
 import { addressDummyData } from "@/assets/assets";
 import { useAppContext } from "@/context/AppContext";
 import React, { useEffect, useState } from "react";
+import Login from "./Login";
 
 const OrderSummary = () => {
-
+   
   const { currency, router,cartItems  } = useAppContext()
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [loginModel,setLoginModel] = useState(false)
 
   const [userAddresses, setUserAddresses] = useState([]);
 
@@ -26,7 +28,14 @@ const OrderSummary = () => {
   useEffect(() => {
     fetchUserAddresses();
   }, [])
-
+const addAddress = ()=>{
+  let token = localStorage.getItem("token")
+  if(token){
+    router.push("/add-address")
+  }else{
+     setLoginModel(true)
+  }
+}
   return (
     <div className="w-full md:w-96 bg-gray-500/5 p-5">
       <h2 className="text-xl md:text-2xl font-medium text-gray-700">
@@ -67,7 +76,7 @@ const OrderSummary = () => {
                   </li>
                 ))}
                 <li
-                  onClick={() => router.push("/add-address")}
+                  onClick={addAddress}
                   className="px-4 py-2  cursor-pointer text-center bg-orange-500 text-white"
                 >
                   + Add New Address
@@ -118,6 +127,7 @@ const OrderSummary = () => {
       <button onClick={createOrder} className="w-full bg-orange-600 text-white py-3 mt-5 hover:bg-orange-700">
         Place Order
       </button>
+      <Login show={loginModel} setShow={setLoginModel}/>
     </div>
   );
 };

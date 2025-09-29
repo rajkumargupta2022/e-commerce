@@ -1,4 +1,4 @@
-// app/api/products/byCategory/route.js
+// app/api/products/byfebricCategory/route.js
 import { NextResponse } from "next/server";
 import Product from "@/app/models/Products"; // your Product model
 import connect from "@/lib/mongodb"
@@ -9,19 +9,19 @@ export async function GET(req) {
 
     // get category from query string
     const { searchParams } = new URL(req.url);
-    const category = searchParams.get("category");
+    const febricCategory = searchParams.get("febric");
 
-    if (!category) {
+    if (!febricCategory) {
       return NextResponse.json(
-        { error: "Category is required" },
+        { error: "Febric is required" },
         { status: 400 }
       );
     }
 
-    // find products by category
-    const products = await Product.find({ category });
+    // find products by febricCategory
+    const products = await Product.find({ febricCategory });
 
-    return NextResponse.json({ products, success: true }, { status: 200 });
+    return NextResponse.json({ data:products, success: true }, { status: 200 });
   } catch (error) {
     console.error("Error fetching products:", error);
     return NextResponse.json({ error: "Failed to fetch products" }, { status: 500 });

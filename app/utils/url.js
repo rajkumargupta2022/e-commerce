@@ -5,5 +5,8 @@ export const endPoints={
   products:"products",
   updateProducts:"update-products",
   productsByCategory:"products-by-category",
+  productsByFebric:"products-by-febric",
+  signup:"signup",
+  login:"login"
 
 }
