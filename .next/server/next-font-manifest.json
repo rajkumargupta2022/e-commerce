@@ -1,15 +1,9 @@
 {
   "app": {
-    "[project]/app/_not-found/page": [
-      "static/media/QGYvz_MVcBeNP4NJtEtqUYLknw-s.p.07dd827d.woff2"
-    ],
-    "[project]/app/page": [
-      "static/media/QGYvz_MVcBeNP4NJtEtqUYLknw-s.p.07dd827d.woff2"
-    ],
     "[project]/app/cart/page": [
       "static/media/QGYvz_MVcBeNP4NJtEtqUYLknw-s.p.07dd827d.woff2"
     ],
-    "[project]/app/add-address/page": [
+    "[project]/app/_not-found/page": [
       "static/media/QGYvz_MVcBeNP4NJtEtqUYLknw-s.p.07dd827d.woff2"
     ]
   },

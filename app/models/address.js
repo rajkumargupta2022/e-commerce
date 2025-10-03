@@ -31,11 +31,8 @@ const addressSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    landmark: {
-      type: String,
-      trim: true, // optional field
-    },
-    phone: {
+    
+    phoneNumber: {
       type: String,
       trim: true, // optional but useful for delivery
     },

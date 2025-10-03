@@ -3,9 +3,17 @@ import axios from "axios";
 import { mainUrl } from "./url";
 
 // POST request
-export const postRequest = async (endPoint, body) => {
+export const postRequest = async (endPoint, body,token) => {
   try {
-    const response = await axios.post(mainUrl+endPoint, body);
+    const response = await axios.post(
+      mainUrl + endPoint,
+      body,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,  // attach token here
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;

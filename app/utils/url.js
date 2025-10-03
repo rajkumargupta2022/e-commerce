@@ -7,6 +7,8 @@ export const endPoints={
   productsByCategory:"products-by-category",
   productsByFebric:"products-by-febric",
   signup:"signup",
-  login:"login"
+  login:"login",
+  address:"address",
+  cart:"cart"
 
 }

@@ -1,4 +1,6 @@
 "use client";
+import { postRequest } from "@/app/utils/api-methods";
+import { endPoints } from "@/app/utils/url";
 import { productsDummyData, userDummyData } from "@/assets/assets";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -36,7 +38,17 @@ export const AppContextProvider = (props) => {
 
   const addToCart = async (item) => {
     // Get previous cart store
-    let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+   
+    let token = localStorage.getItem("token")
+    if(token){
+        forServer()
+    }else{
+       forLocal()
+    }
+  
+  };
+  const forLocal=()=>{
+      let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
       cart: [],
       cartTotal: 0,
     };
@@ -70,7 +82,40 @@ export const AppContextProvider = (props) => {
     localStorage.setItem("cartStore", JSON.stringify(cartStore));
     toast.success(item.name + " added successfully in cart");
     setCartItems(cartStore);
-  };
+  }
+
+
+const forServer = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    let cartStore = JSON.parse(localStorage.getItem("cartStore")) || { cart: [] };
+    // Map local cart format → server format
+    const items = cartStore.cart.map((cartItem) => ({
+      productId: cartItem._id,
+      quantity: cartItem.cartQuantity,
+    }));
+
+    if (items.length === 0) return;
+
+    // API call with wrapper
+    const res = await postRequest(endPoints.cart, { items }, token);
+
+    if (res.success) {
+      console.log("✅ Cart synced with server");
+      toast.success("Cart synced with server");
+    } else {
+      console.error("❌ Server error:", res.data?.error || res.error);
+      toast.error(res.data?.error || "Something went wrong");
+    }
+  } catch (err) {
+    console.error("❌ Error syncing cart:", err);
+    toast.error("Error syncing cart");
+  }
+};
+
+
   const deleteCart = (_id) => {
     let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
       cart: [],

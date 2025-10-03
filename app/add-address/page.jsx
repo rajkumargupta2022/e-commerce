@@ -4,21 +4,34 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import { useState } from "react";
+import { postRequest } from "../utils/api-methods";
+import { endPoints } from "../utils/url";
+import toast from "react-hot-toast";
 
 const AddAddress = () => {
 
     const [address, setAddress] = useState({
-        fullName: '',
+        name: '',
         phoneNumber: '',
         pincode: '',
-        area: '',
+        address: '',
         city: '',
         state: '',
     })
 
     const onSubmitHandler = async (e) => {
+        
         e.preventDefault();
-
+        const token = localStorage.getItem("token")
+      try{
+         const res = await postRequest(endPoints.address,address,token)
+         if(res){
+            console.log(res)
+            toast.success(res.data.msg)
+         }
+      }catch(err){
+         console.log(err)
+      }
     }
 
     return (
@@ -34,7 +47,7 @@ const AddAddress = () => {
                             className="px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500"
                             type="text"
                             placeholder="Full name"
-                            onChange={(e) => setAddress({ ...address, fullName: e.target.value })}
+                            onChange={(e) => setAddress({ ...address, name: e.target.value })}
                             value={address.fullName}
                         />
                         <input
@@ -56,7 +69,7 @@ const AddAddress = () => {
                             type="text"
                             rows={4}
                             placeholder="Address (Area and Street)"
-                            onChange={(e) => setAddress({ ...address, area: e.target.value })}
+                            onChange={(e) => setAddress({ ...address, address: e.target.value })}
                             value={address.area}
                         ></textarea>
                         <div className="flex space-x-3">

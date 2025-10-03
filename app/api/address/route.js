@@ -1,8 +1,9 @@
-import dbConnect from "@/lib/dbConnect";
-import Address from "@/models/Address";
-import User from "@/models/User";
+import dbConnect from "@/lib/mongodb";
+import Address from "@/app/models/address";
+import User from "@/app/models/User";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "@/app/utils/url";
 
 export async function POST(req) {
   try {
@@ -22,19 +23,19 @@ export async function POST(req) {
     // verify token
     let decoded;
     try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET); // your JWT secret
+      decoded = jwt.verify(token, JWT_SECRET); // your JWT secret
     } catch (err) {
       return NextResponse.json(
         { success: false, message: "Invalid or expired token" },
         { status: 401 }
       );
     }
-
+   
     const userId = decoded.userId; // comes from token payload
 
     // parse body
     const body = await req.json();
-    const { pincode, city, state, address, landmark, phone, isDefault } = body;
+    const {name, pincode, city, state, address, phoneNumber, isDefault } = body;
 
     if (!pincode || !city || !state || !address) {
       return NextResponse.json(
@@ -45,6 +46,7 @@ export async function POST(req) {
 
     // fetch user details
     const user = await User.findById(userId).select("name email");
+ 
     if (!user) {
       return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
     }
@@ -58,10 +60,10 @@ export async function POST(req) {
       userId,
       pincode,
       city,
+      name,
       state,
       address,
-      landmark,
-      phone,
+      phoneNumber,
       isDefault,
     });
 
@@ -81,6 +83,55 @@ export async function POST(req) {
     );
   } catch (error) {
     console.error("Error saving address:", error);
+    return NextResponse.json(
+      { success: false, message: "Server error", error: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+
+export async function GET(req) {
+  try {
+    await dbConnect();
+
+    // get token from headers
+    const authHeader = req.headers.get("authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized: No token provided" },
+        { status: 401 }
+      );
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    // verify token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET);
+    } catch (err) {
+      return NextResponse.json(
+        { success: false, message: "Invalid or expired token" },
+        { status: 401 }
+      );
+    }
+
+    const userId = decoded.userId;
+
+    // fetch all addresses of this user
+    const addresses = await Address.find({ userId });
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Addresses fetched successfully",
+        data: addresses,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error fetching addresses:", error);
     return NextResponse.json(
       { success: false, message: "Server error", error: error.message },
       { status: 500 }
