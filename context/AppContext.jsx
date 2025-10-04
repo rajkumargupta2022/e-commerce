@@ -41,9 +41,9 @@ export const AppContextProvider = (props) => {
    
     let token = localStorage.getItem("token")
     if(token){
-        forServer()
+        forServer(item)
     }else{
-       forLocal()
+       forLocal(item)
     }
   
   };
@@ -85,32 +85,21 @@ export const AppContextProvider = (props) => {
   }
 
 
-const forServer = async () => {
+const forServer = async (cartData) => {
   try {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    let cartStore = JSON.parse(localStorage.getItem("cartStore")) || { cart: [] };
-    // Map local cart format → server format
-    const items = cartStore.cart.map((cartItem) => ({
-      productId: cartItem._id,
-      quantity: cartItem.cartQuantity,
-    }));
-
-    if (items.length === 0) return;
-
+ 
+console.log("carData",cartData)
     // API call with wrapper
-    const res = await postRequest(endPoints.cart, { items }, token);
+    return
+    const res = await postRequest(endPoints.cart, { items:cartData }, token);
 
     if (res.success) {
       console.log("✅ Cart synced with server");
-      toast.success("Cart synced with server");
+      toast.success("Cart updated");
     } else {
-      console.error("❌ Server error:", res.data?.error || res.error);
       toast.error(res.data?.error || "Something went wrong");
     }
   } catch (err) {
-    console.error("❌ Error syncing cart:", err);
     toast.error("Error syncing cart");
   }
 };

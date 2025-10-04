@@ -9,7 +9,7 @@ export async function POST(req) {
   try {
     await dbConnect();
 
-   const authHeader = req.headers.get("uthorization");
+   const authHeader = req.headers.get("authorization");
      if (!authHeader || !authHeader.startsWith("Bearer ")) {
        return NextResponse.json(
          { success: false, message: "Unauthorized: No token provided" },
@@ -81,10 +81,79 @@ export async function POST(req) {
 
     await cart.save();
 
-    return NextResponse.json({ message: "Cart updated", cart }, { status: 200 });
+    return NextResponse.json({ msg: "Cart updated",success:true, data:cart }, { status: 200 });
 
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
+
+export async function GET(req) {
+  try {
+    await dbConnect();
+
+    // ✅ Get token from headers
+    const authHeader = req.headers.get("authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized: No token provided" },
+        { status: 401 }
+      );
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    // ✅ Verify token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET);
+    } catch (err) {
+      return NextResponse.json(
+        { success: false, message: "Invalid or expired token" },
+        { status: 401 }
+      );
+    }
+
+    const userId = decoded.userId;
+
+    // ✅ Find cart and populate product details
+    let cart = await Cart.findOne({ userId }).populate(
+      "items.productId",
+      "name price size images"
+    );
+
+    if (!cart) {
+      return NextResponse.json(
+        { success: true, message: "Cart is empty", data: { items: [], cartTotal: 0 } },
+        { status: 200 }
+      );
+    }
+
+    // ✅ Flatten items
+    const formattedItems = cart.items.map((item) => ({
+      _id: item._id,
+      productId: item.productId._id,
+      name: item.productId.name,
+      price: item.productId.price,
+      size: item.productId.size,
+      images: item.productId.images,
+      quantity: item.quantity,
+    }));
+
+    const responseData = {
+      _id: cart._id,
+      userId: cart.userId,
+      cartTotal: cart.cartTotal,
+      items: formattedItems,
+    };
+
+    return NextResponse.json(
+      { success: true, message: "Cart fetched successfully", data: responseData },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
   }
 }
