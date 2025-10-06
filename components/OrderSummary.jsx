@@ -2,25 +2,55 @@ import { addressDummyData } from "@/assets/assets";
 import { useAppContext } from "@/context/AppContext";
 import React, { useEffect, useState } from "react";
 import Login from "./Login";
+import { getRequest, postRequest } from "@/app/utils/api-methods";
+import { endPoints } from "@/app/utils/url";
+import toast from "react-hot-toast";
 
 const OrderSummary = () => {
-  const { currency, router, cartItems } = useAppContext();
+  const { currency, router, cartItems, fetchCartData } = useAppContext();
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [addressId, setAddressId] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [loginModel, setLoginModel] = useState(false);
 
   const [userAddresses, setUserAddresses] = useState([]);
 
   const fetchUserAddresses = async () => {
-    setUserAddresses(addressDummyData);
+    try {
+      const token = localStorage.getItem("token")
+      const res = await getRequest(endPoints.address, token)
+      console.log("ressss", res)
+      if (res.success) {
+        setUserAddresses(res.data)
+      }
+    } catch (err) {
+      setUserAddresses([])
+    }
   };
 
   const handleAddressSelect = (address) => {
     setSelectedAddress(address);
+    setAddressId(address._id)
     setIsDropdownOpen(false);
   };
 
-  const createOrder = async () => {};
+  const createOrder = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      const reqBody = {
+        addressId,
+        paymentMethod: "cash"
+      }
+      const res = await postRequest(endPoints.order, reqBody, token)
+      if (res.success) {
+        // toast.success("Order successfully")
+        fetchCartData()
+        router.push("/order-placed");
+      }
+    } catch (err) {
+      toast.error("Order failed")
+    }
+  };
 
   useEffect(() => {
     fetchUserAddresses();
@@ -51,13 +81,12 @@ const OrderSummary = () => {
             >
               <span>
                 {selectedAddress
-                  ? `${selectedAddress.fullName}, ${selectedAddress.area}, ${selectedAddress.city}, ${selectedAddress.state}`
+                  ? `${selectedAddress.name}, ${selectedAddress.pincode}, ${selectedAddress.city}, ${selectedAddress.state}`
                   : "Select Address"}
               </span>
               <svg
-                className={`w-5 h-5 inline float-right transition-transform duration-200 ${
-                  isDropdownOpen ? "rotate-0" : "-rotate-90"
-                }`}
+                className={`w-5 h-5 inline float-right transition-transform duration-200 ${isDropdownOpen ? "rotate-0" : "-rotate-90"
+                  }`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -80,7 +109,7 @@ const OrderSummary = () => {
                     className="px-4 py-2 hover:bg-gray-500/10 cursor-pointer"
                     onClick={() => handleAddressSelect(address)}
                   >
-                    {address.fullName}, {address.area}, {address.city},{" "}
+                    {address.name}, {address.address},{address.pincode}, {address.city},{" "}
                     {address.state}
                   </li>
                 ))}

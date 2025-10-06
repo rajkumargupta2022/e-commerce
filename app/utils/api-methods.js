@@ -21,9 +21,14 @@ export const postRequest = async (endPoint, body,token) => {
 };
 
 // GET request
-export const getRequest = async (endPoint) => {
+export const getRequest = async (endPoint,token,) => {
   try {
-    const response = await axios.get(mainUrl+endPoint);
+    const response = await axios.get(mainUrl+endPoint,{
+        headers: {
+          Authorization: `Bearer ${token}`,  // attach token here
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;

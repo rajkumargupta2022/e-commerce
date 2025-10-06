@@ -9,6 +9,8 @@ export const endPoints={
   signup:"signup",
   login:"login",
   address:"address",
-  cart:"cart"
+  cart:"cart",
+  order:"order",
+  allOrder:"all-order"
 
 }

@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import toast from "react-hot-toast";
 import Signup from "./sign-up";
+import { useAppContext } from "@/context/AppContext";
 
 const initialValue = {
   phoneNumber: "",
@@ -13,6 +14,7 @@ const initialValue = {
 };
 
 function Login({ show, setShow }) {
+   const { addToCart } = useAppContext();
   const [formData, setFormData] = useState(initialValue);
   const [validated, setValidated] = useState(false);
   const [signup, setSignup] = useState(false);
@@ -44,6 +46,8 @@ function Login({ show, setShow }) {
         const res = await postRequest(endPoints.login, reqBody);
 
         if (res.success) {
+         let cartData = JSON.parse(localStorage.getItem("cartStore"))
+         addToCart(cartData.cart)
           toast.success("Login successful 🎉");
           localStorage.setItem("token", res.token);
           handleClose();

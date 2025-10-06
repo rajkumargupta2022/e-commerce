@@ -1,5 +1,5 @@
 "use client";
-import { postRequest } from "@/app/utils/api-methods";
+import { getRequest, postRequest } from "@/app/utils/api-methods";
 import { endPoints } from "@/app/utils/url";
 import { productsDummyData, userDummyData } from "@/assets/assets";
 import { useRouter } from "next/navigation";
@@ -29,11 +29,24 @@ export const AppContextProvider = (props) => {
     setUserData(userDummyData);
   };
   const fetchCartData = async () => {
-    let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+    const token  = localStorage.getItem("token")
+    if(!token){
+       let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
       cart: [],
       cartTotal: 0,
     };
     setCartItems(cartStore);
+    }else{
+       try{
+         const res = await getRequest(endPoints.cart,token)
+         if(res){
+          setCartItems(res.data);
+         }
+       }catch(err){
+          setCartItems({})
+       }
+    }
+    
   };
 
   const addToCart = async (item) => {
@@ -47,7 +60,7 @@ export const AppContextProvider = (props) => {
     }
   
   };
-  const forLocal=()=>{
+  const forLocal=(item)=>{
       let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
       cart: [],
       cartTotal: 0,
@@ -87,22 +100,34 @@ export const AppContextProvider = (props) => {
 
 const forServer = async (cartData) => {
   try {
- 
-console.log("carData",cartData)
-    // API call with wrapper
-    return
-    const res = await postRequest(endPoints.cart, { items:cartData }, token);
+   const token  = localStorage.getItem("token")
+    // Prepare the data to match the API structure: [{ _id: "productId", quantity: cartQuantity }]
+    const requestData = {
+      items: [
+        {
+          _id: cartData._id,  // Assuming cartData has the _id for productId
+          cartQuantity: 1
+        }
+      ]
+    };
 
+    // Send the request to the API
+    const res = await postRequest(endPoints.cart, requestData, token);
+
+    // Check the response
     if (res.success) {
+      fetchCartData()
       console.log("✅ Cart synced with server");
       toast.success("Cart updated");
     } else {
       toast.error(res.data?.error || "Something went wrong");
     }
   } catch (err) {
+    console.error(err);
     toast.error("Error syncing cart");
   }
 };
+
 
 
   const deleteCart = (_id) => {

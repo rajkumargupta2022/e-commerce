@@ -5,17 +5,27 @@ import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
 import Footer from "@/components/seller/Footer";
 import Loading from "@/components/Loading";
+import { getRequest } from "@/app/utils/api-methods";
+import { endPoints } from "@/app/utils/url";
 
 const Orders = () => {
 
     const { currency } = useAppContext();
 
     const [orders, setOrders] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const fetchSellerOrders = async () => {
-        setOrders(orderDummyData);
-        setLoading(false);
+           try{
+        
+                  const res = await getRequest(endPoints.allOrder)
+                  // setLoading(true)
+                  setOrders(res.orders)
+                }catch(err){
+                  // setLoading(false)
+                  setOrders([])
+                }
+       
     }
 
     useEffect(() => {
@@ -37,28 +47,28 @@ const Orders = () => {
                                 />
                                 <p className="flex flex-col gap-3">
                                     <span className="font-medium">
-                                        {order.items.map((item) => item.product.name + ` x ${item.quantity}`).join(", ")}
+                                        {order.items.map((item) => item.name + ` x ${item.quantity}`).join(", ")}
                                     </span>
                                     <span>Items : {order.items.length}</span>
                                 </p>
                             </div>
                             <div>
                                 <p>
-                                    <span className="font-medium">{order.address.fullName}</span>
+                                    <span className="font-medium">{order.addressId.name}</span>
                                     <br />
-                                    <span >{order.address.area}</span>
+                                    <span >{order.addressId.address}</span>
                                     <br />
-                                    <span>{`${order.address.city}, ${order.address.state}`}</span>
+                                    <span>{`${order.addressId.city}, ${order.addressId.state}`}</span>
                                     <br />
-                                    <span>{order.address.phoneNumber}</span>
+                                    <span>{order.addressId.phoneNumber}</span>
                                 </p>
                             </div>
-                            <p className="font-medium my-auto">{currency}{order.amount}</p>
+                            <p className="font-medium my-auto">{currency}{order.totalAmount}</p>
                             <div>
                                 <p className="flex flex-col">
-                                    <span>Method : COD</span>
-                                    <span>Date : {new Date(order.date).toLocaleDateString()}</span>
-                                    <span>Payment : Pending</span>
+                                    <span>Method : {order.paymentMethod}</span>
+                                    <span>Date : {new Date(order.createdAt).toLocaleDateString()}</span>
+                                    <span>Payment : {order.status}</span>
                                 </p>
                             </div>
                         </div>

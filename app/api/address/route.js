@@ -1,5 +1,5 @@
 import dbConnect from "@/lib/mongodb";
-import Address from "@/app/models/address";
+import Address from "@/app/models/Address";
 import User from "@/app/models/User";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";

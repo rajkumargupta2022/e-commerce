@@ -31,10 +31,9 @@ const addressSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    
     phoneNumber: {
       type: String,
-      trim: true, // optional but useful for delivery
+      trim: true, // optional
     },
     isDefault: {
       type: Boolean,
@@ -44,4 +43,6 @@ const addressSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("address", addressSchema);
+// Use mongoose.models to avoid OverwriteModelError in development/hot reload
+const Address = mongoose.models.Address || mongoose.model("Address", addressSchema);
+export default Address;
