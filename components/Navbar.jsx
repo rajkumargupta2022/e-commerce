@@ -9,7 +9,7 @@ import Login from "./Login";
 import toast from "react-hot-toast";
 
 const Navbar = () => {
-  const { isSeller, router, cartItems } = useAppContext();
+  const { isSeller, router, cartItems ,fetchCartData} = useAppContext();
 
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isFebricOpen, setIsFebricOpen] = useState(false);
@@ -68,8 +68,11 @@ const Navbar = () => {
   }, []);
   const logout = ()=>{
     localStorage.removeItem("token")
+    fetchCartData()
+    setToken("")
     toast.success("Logout successfully")
   }
+  
 
   return (
     <nav className="sticky top-0 bg-white z-50 flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-gray-300 text-gray-700">

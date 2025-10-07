@@ -11,6 +11,8 @@ export const endPoints={
   address:"address",
   cart:"cart",
   order:"order",
-  allOrder:"all-order"
+  allOrder:"all-order",
+  remove:"cart/remove",
+  editProduct:"products/edit-product"
 
 }

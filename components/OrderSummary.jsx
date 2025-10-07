@@ -16,8 +16,9 @@ const OrderSummary = () => {
   const [userAddresses, setUserAddresses] = useState([]);
 
   const fetchUserAddresses = async () => {
-    try {
-      const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token")
+    if(token){
+        try {
       const res = await getRequest(endPoints.address, token)
       console.log("ressss", res)
       if (res.success) {
@@ -26,6 +27,8 @@ const OrderSummary = () => {
     } catch (err) {
       setUserAddresses([])
     }
+    }
+  
   };
 
   const handleAddressSelect = (address) => {

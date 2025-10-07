@@ -46,8 +46,8 @@ function Login({ show, setShow }) {
         const res = await postRequest(endPoints.login, reqBody);
 
         if (res.success) {
-         let cartData = JSON.parse(localStorage.getItem("cartStore"))
-         addToCart(cartData.cart)
+         let cartData =await JSON.parse(localStorage.getItem("cartStore"))
+       await  syncCartToServer(cartData)
           toast.success("Login successful 🎉");
           localStorage.setItem("token", res.token);
           handleClose();
@@ -61,6 +61,27 @@ function Login({ show, setShow }) {
 
     setValidated(true);
   };
+  const syncCartToServer = async (cartData) => {
+  try {
+    if (!cartData || !Array.isArray(cartData.cart)) {
+      return;
+    }
+
+    const cartItems = cartData.cart;
+
+    for (let i = 0; i < cartItems.length; i++) {
+      const singleItem = cartItems[i];
+      
+      await addToCart(singleItem); // 👈 Call your existing function
+      console.log("singleItem",singleItem);
+    }
+
+    console.log("✅ All items sent successfully");
+  } catch (error) {
+    console.error("❌ Error syncing cart:", error);
+  }
+};
+
   const openSignup = ()=>{
     setSignup(true)
     setShow(false)

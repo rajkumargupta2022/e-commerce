@@ -7,7 +7,11 @@ import Navbar from "@/components/Navbar";
 import { useAppContext } from "@/context/AppContext";
 
 const Cart = () => {
-  const { cartItems, addToCart,deleteCart,decreaseCartQuantity } = useAppContext();
+  const { cartItems, addToCart,deleteCart } = useAppContext();
+ 
+ useEffect(()=>{
+console.log("=========",cartItems)
+ },[cartItems])
 
   return (
     <>
@@ -43,12 +47,12 @@ const Cart = () => {
               <tbody>
                 {cartItems?.cart?.map((product) => {
                   return (
-                    <tr key={product._id}>
+                    <tr key={product?.productId}>
                       <td className="flex items-center gap-4 py-4 md:px-4 px-1">
                         <div>
                           <div className="rounded-lg overflow-hidden bg-gray-500/10 p-2">
                             <Image
-                              src={`/uploads/${product.images[0]}`}
+                              src={`/uploads/${product?.images[0]}`}
                               alt={product.name}
                               className="w-16 h-auto object-cover mix-blend-multiply"
                               width={1280}
@@ -64,12 +68,12 @@ const Cart = () => {
                         </div>
                         <div className="text-sm hidden md:block">
                           <p className="text-gray-800">{product?.name}</p>
-                          <button
+                          {/* <button
                             className="text-xs text-orange-600 mt-1"
-                           onClick={() => deleteCart(product?._id)}
+                           onClick={() => deleteCart(product?.productId)}
                           >
                             Remove
-                          </button>
+                          </button> */}
                         </div>
                       </td>
                       <td className="py-4 md:px-4 px-1 text-gray-600">
@@ -77,7 +81,7 @@ const Cart = () => {
                       </td>
                       <td className="py-4 md:px-4 px-1">
                         <div className="flex items-center md:gap-2 gap-1">
-                          <button onClick={() => decreaseCartQuantity(product?._id)}>
+                          <button onClick={() => deleteCart(product?.productId||product?._id)}>
                             <Image
                               src={assets.decrease_arrow}
                               alt="decrease_arrow"

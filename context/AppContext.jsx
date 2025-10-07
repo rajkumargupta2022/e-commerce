@@ -4,7 +4,7 @@ import { endPoints } from "@/app/utils/url";
 import { productsDummyData, userDummyData } from "@/assets/assets";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import toast, { ToastBar } from "react-hot-toast";
 
 export const AppContext = createContext();
 
@@ -29,39 +29,39 @@ export const AppContextProvider = (props) => {
     setUserData(userDummyData);
   };
   const fetchCartData = async () => {
-    const token  = localStorage.getItem("token")
-    if(!token){
-       let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
-      cart: [],
-      cartTotal: 0,
-    };
-    setCartItems(cartStore);
-    }else{
-       try{
-         const res = await getRequest(endPoints.cart,token)
-         if(res){
+    const token = localStorage.getItem("token");
+    if (!token) {
+      let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+        cart: [],
+        cartTotal: 0,
+      };
+      console.log("fddddddddd from local", cartStore);
+      setCartItems({ ...cartStore });
+    } else {
+      try {
+        const res = await getRequest(endPoints.cart, token);
+        if (res) {
           setCartItems(res.data);
-         }
-       }catch(err){
-          setCartItems({})
-       }
+          console.log("fddddddddd from server", res.data);
+        }
+      } catch (err) {
+        setCartItems({});
+      }
     }
-    
   };
 
   const addToCart = async (item) => {
     // Get previous cart store
-   
-    let token = localStorage.getItem("token")
-    if(token){
-        forServer(item)
-    }else{
-       forLocal(item)
+
+    let token = localStorage.getItem("token");
+    if (token) {
+      forServer(item);
+    } else {
+      forLocal(item);
     }
-  
   };
-  const forLocal=(item)=>{
-      let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+  const forLocal = (item) => {
+    let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
       cart: [],
       cartTotal: 0,
     };
@@ -95,82 +95,130 @@ export const AppContextProvider = (props) => {
     localStorage.setItem("cartStore", JSON.stringify(cartStore));
     toast.success(item.name + " added successfully in cart");
     setCartItems(cartStore);
-  }
+  };
 
+  const forServer = async (cartData) => {
+    console.log("cartdata from api calling",cartData);
+    
+    try {
+      const token = localStorage.getItem("token");
+      const requestData = {
+        items: [
+          {
+            _id: cartData._id ? cartData._id : cartData.productId, // Assuming cartData has the _id for productId
+            cartQuantity: 1,
+          },
+        ],
+      };
 
-const forServer = async (cartData) => {
-  try {
-   const token  = localStorage.getItem("token")
-    // Prepare the data to match the API structure: [{ _id: "productId", quantity: cartQuantity }]
-    const requestData = {
-      items: [
-        {
-          _id: cartData._id,  // Assuming cartData has the _id for productId
-          cartQuantity: 1
-        }
-      ]
-    };
+      // Send the request to the API
+      const res = await postRequest(endPoints.cart, requestData, token);
 
-    // Send the request to the API
-    const res = await postRequest(endPoints.cart, requestData, token);
-
-    // Check the response
-    if (res.success) {
-      fetchCartData()
-      console.log("✅ Cart synced with server");
-      toast.success("Cart updated");
-    } else {
-      toast.error(res.data?.error || "Something went wrong");
-    }
-  } catch (err) {
-    console.error(err);
-    toast.error("Error syncing cart");
-  }
-};
-
-
-
-  const deleteCart = (_id) => {
-    let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
-      cart: [],
-      cartTotal: 0,
-    };
-    if (cartStore?.cart?.length > 0) {
-      let filtered = cartStore.cart.filter((item) => {
-        return item._id !== _id;
-      });
-      cartStore.cart = filtered;
-      localStorage.setItem("cartStore", JSON.stringify(cartStore));
-      setCartItems(cartStore);
-      toast.success("Product delete successfully from cart");
+      // Check the response
+      if (res.success) {
+        fetchCartData();
+        console.log("✅ Cart synced with server");
+        toast.success("Cart updated");
+      } else {
+        toast.error(res.data?.error || "Something went wrong");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Error syncing cart");
     }
   };
-  const decreaseCartQuantity = (_id) => {
-  let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+
+  const deleteCart = async (_id) => {
+    const token = localStorage.getItem("token");
+    console.log("_id",_id)
+    if (token) {
+      try {
+        const res = await postRequest(
+          endPoints.remove,
+          { productId: _id },
+          token
+        );
+        if (res.success) {
+          fetchCartData()
+          toast.success("Cart remove successfully");
+        } else {
+          toast.success("Cart remove failed");
+        }
+      } catch (err) {
+        toast.success("Cart remove failed");
+      }
+    } else {
+        let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
     cart: [],
     cartTotal: 0,
   };
 
   if (cartStore?.cart?.length > 0) {
-    let updatedCart = cartStore.cart.map((item) => {
-      if (item._id === _id) {
-        return { ...item, cartQuantity: item.cartQuantity - 1 };
-      }
-      return item;
-    }).filter(item => item.cartQuantity > 0); // remove if qty = 0
+    // Loop through cart items and decrease quantity if found
+    const updatedCart = cartStore.cart
+      .map((item) => {
+        if (item._id === _id) {
+          const updatedQuantity = (item.cartQuantity || 1) - 1;
+          // Only keep item if quantity > 0
+          return updatedQuantity > 0
+            ? { ...item, cartQuantity: updatedQuantity }
+            : null;
+        }
+        return item;
+      })
+      .filter(Boolean); // remove null items (quantity 0)
 
-    cartStore.cart = updatedCart;
+    // Recalculate total
+    const newTotal = updatedCart.reduce(
+      (sum, item) => sum + item.price * (item.cartQuantity || 1),
+      0
+    );
 
-    // update localStorage
+    // Update cart store
+    cartStore = {
+      ...cartStore,
+      cart: updatedCart,
+      cartTotal: newTotal,
+    };
+
+    // Save to localStorage
     localStorage.setItem("cartStore", JSON.stringify(cartStore));
 
-    // update state
+    // Update state
     setCartItems(cartStore);
 
-    toast.success("Product quantity updated");
-  }
-};
+    toast.success("Product quantity updated successfully");
+  } else {
+    toast.info("Cart is empty");
+  }}
+  };
+  const decreaseCartQuantity = (_id) => {
+    let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+      cart: [],
+      cartTotal: 0,
+    };
 
+    if (cartStore?.cart?.length > 0) {
+      let updatedCart = cartStore.cart
+        .map((item) => {
+          if (item._id === _id) {
+            return { ...item, cartQuantity: item.cartQuantity - 1 };
+          }
+          return item;
+        })
+        .filter((item) => item.cartQuantity > 0); // remove if qty = 0
+
+      cartStore.cart = updatedCart;
+
+      // update localStorage
+      localStorage.setItem("cartStore", JSON.stringify(cartStore));
+
+      // update state
+      setCartItems(cartStore);
+
+      toast.success("Product quantity updated");
+    }
+  };
 
   useEffect(() => {
     fetchCartData();
@@ -190,7 +238,7 @@ const forServer = async (cartData) => {
     addToCart,
     deleteCart,
     fetchCartData,
-    decreaseCartQuantity
+    decreaseCartQuantity,
   };
 
   return (

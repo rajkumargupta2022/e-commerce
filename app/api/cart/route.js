@@ -35,6 +35,7 @@ export async function POST(req) {
 
     // Parse request body
     const { items } = await req.json();
+    
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ error: "Items array required" }, { status: 400 });
     }

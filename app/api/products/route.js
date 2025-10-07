@@ -31,7 +31,6 @@ export async function POST(req) {
     const formData = await req.formData();
 
     const imageFiles = formData.getAll("images");
-console.log("====== Received Files ======", imageFiles);
 
 // 👇 await Promise.all directly instead of wrapping in async/await in map
 const savedImages = await Promise.all(
@@ -63,7 +62,6 @@ const savedImages = await Promise.all(
 export async function GET() {
   try {
     await connect();
-    console.log("i am here")
     const products = await Product.find();
     return NextResponse.json({success:true,
       data: products }, { status: 200 });

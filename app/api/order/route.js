@@ -13,7 +13,10 @@ export async function POST(req) {
 
     const authHeader = req.headers.get("authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json(
+        { success: false, message: "Unauthorized" },
+        { status: 401 }
+      );
     }
 
     const token = authHeader.split(" ")[1];
@@ -23,43 +26,52 @@ export async function POST(req) {
     const { addressId, paymentMethod } = await req.json();
 
     if (!addressId || !paymentMethod) {
-      return NextResponse.json({ success: false, message: "Address ID and payment method required" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, message: "Address ID and payment method required" },
+        { status: 400 }
+      );
     }
 
-    // Validate address ownership
+    // ✅ Validate address ownership
     const address = await Address.findOne({ _id: addressId, userId });
     if (!address) {
-      return NextResponse.json({ success: false, message: "Address not found" }, { status: 404 });
+      return NextResponse.json(
+        { success: false, message: "Address not found" },
+        { status: 404 }
+      );
     }
 
-    // Get user's cart with products
+    // ✅ Get user's cart with populated products
     const cart = await Cart.findOne({ userId }).populate("items.productId");
     if (!cart || cart.items.length === 0) {
-      return NextResponse.json({ success: false, message: "Cart is empty" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, message: "Cart is empty" },
+        { status: 400 }
+      );
     }
 
-    // Build order items from cart
-    const orderItems = cart.items.map(item => {
+    // ✅ Build order items and total
+    const orderItems = cart.items.map((item) => {
       const product = item.productId;
-      
       return {
         productId: product._id,
         name: product.name,
         price: product.price,
         images: product.images,
         category: product.category,
-        febricCotegory: product.febricCategory,
-        color: product.color || "N/A", // ✅ use product color or fallback
-        quantity: item.cartQuantity,    // ✅ fixed from item.productId.cartQuantity
+        febricCategory: product.febricCategory,
+        color: product.color || "N/A",
+        quantity: item.cartQuantity,
         size: product.size || "",
       };
     });
-console.log("orderItemsorderItemsorderItems",orderItems)
-    // Calculate total
-    // return
-    const totalAmount = orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-    // Create order
+    const totalAmount = orderItems.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
+
+    // ✅ Create order
     const order = await Order.create({
       userId,
       items: orderItems,
@@ -68,14 +80,28 @@ console.log("orderItemsorderItemsorderItems",orderItems)
       paymentMethod,
     });
 
-    // Clear cart
+    // ✅ Decrease product stock
+    for (const item of orderItems) {
+      await Product.findByIdAndUpdate(
+        item.productId,
+        { $inc: { stock: -item.quantity } }, // Decrease stock count
+        { new: true }
+      );
+    }
+
+    // ✅ Clear cart after order placed
     await Cart.findOneAndDelete({ userId });
 
-    return NextResponse.json({ success: true, message: "Order placed", data: order }, { status: 201 });
-
+    return NextResponse.json(
+      { success: true, message: "Order placed successfully", data: order },
+      { status: 201 }
+    );
   } catch (err) {
-    console.log("Order Error:", err);
-    return NextResponse.json({ success: false, message: "Server error" }, { status: 500 });
+    console.error("Order Error:", err);
+    return NextResponse.json(
+      { success: false, message: "Server error" },
+      { status: 500 }
+    );
   }
 }
 

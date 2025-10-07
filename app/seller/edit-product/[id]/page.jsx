@@ -2,12 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { assets } from "@/assets/assets";
 import Image from "next/image";
-import { postRequest } from "../utils/api-methods";
-import { endPoints } from "../utils/url";
+
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
+import { getRequest, postRequest } from "@/app/utils/api-methods";
+import { endPoints } from "@/app/utils/url";
 
-const AddProduct = () => {
+const EditProduct = () => {
   const { id } = useParams();
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
@@ -22,29 +23,38 @@ const AddProduct = () => {
   const [quantity, setQuantity] = useState(0);
   const [color, setColor] = useState("");
 
-  const productById = async () => {
-    try {
-      const res = await getRequest(endPoints.products + id);
-      if (res.success) {
-        setImage1(null);
-        setImage2(null);
-        setImage3(null);
-        setImage4(null);
-        setName("");
-        setDescription(res.data.description);
-        setColor(res.data.color ?? "");
-        setCategory(res.data.category);
-        setFebricCategory(res.data.febricCategory);
-        setSize(res.data.size);
-        setPrice(res.data.price);
-      }
-    } catch (err) {}
-  };
+ const productById = async () => {
+  try {
+    console.log("idddd",id)
+    const res = await postRequest(endPoints.editProduct,{id});
+    if (res?.success && res.data) {
+     
+      // setImage1(res.data.images[0]??null);
+      // setImage2(res.data.images[1]??null);
+      // setImage3(res.data.images[2]??null);
+      // setImage4(res.data.images[3]??null);
+      setName(res.data.name ?? "");
+      setDescription(res.data.description ?? "");
+      setColor(res.data.color ?? "");
+      setCategory(res.data.category ?? "");
+      setFebricCategory(res.data.febricCategory ?? "");
+      setSize(res.data.size ?? "");
+      setPrice(res.data.price ?? 0);
+      setQuantity(res.data.quantity)
+    } else {
+      console.warn("No product found or API returned false");
+    }
+  } catch (err) {
+    console.error("Error fetching product:", err);
+  }
+};
+
+
   useEffect(() => {
     if(id){
       productById();
     }
-  }, []);
+  }, [id]);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -107,72 +117,72 @@ const AddProduct = () => {
         {/* Image 1 */}
         <div>
           <p className="text-base font-medium">Product Image 1</p>
-          <div className="flex flex-wrap items-center gap-3 mt-2">
-            <label htmlFor="image1">
-              <input
-                type="file"
-                id="image1"
-                hidden
-                accept="image/*"
-                onChange={(e) => e.target.files && setImage1(e.target.files[0])}
-              />
-              <Image
-                className="max-w-24 cursor-pointer"
-                src={image1 ? URL.createObjectURL(image1) : assets.upload_area}
-                alt="Image 1"
-                width={100}
-                height={100}
-              />
-            </label>
-            <label htmlFor="image2">
-              <input
-                type="file"
-                id="image2"
-                hidden
-                accept="image/*"
-                onChange={(e) => e.target.files && setImage2(e.target.files[0])}
-              />
-              <Image
-                className="max-w-24 cursor-pointer"
-                src={image2 ? URL.createObjectURL(image2) : assets.upload_area}
-                alt="Image 2"
-                width={100}
-                height={100}
-              />
-            </label>
-            <label htmlFor="image3">
-              <input
-                type="file"
-                id="image3"
-                hidden
-                accept="image/*"
-                onChange={(e) => e.target.files && setImage3(e.target.files[0])}
-              />
-              <Image
-                className="max-w-24 cursor-pointer"
-                src={image3 ? URL.createObjectURL(image3) : assets.upload_area}
-                alt="Image 2"
-                width={100}
-                height={100}
-              />
-            </label>
-            <label htmlFor="image4">
-              <input
-                type="file"
-                id="image4"
-                hidden
-                accept="image/*"
-                onChange={(e) => e.target.files && setImage4(e.target.files[0])}
-              />
-              <Image
-                className="max-w-24 cursor-pointer"
-                src={image4 ? URL.createObjectURL(image4) : assets.upload_area}
-                alt="Image 2"
-                width={100}
-                height={100}
-              />
-            </label>
-          </div>
+         <div className="flex flex-wrap items-center gap-3 mt-2">
+                     <label htmlFor="image1">
+                       <input
+                         type="file"
+                         id="image1"
+                         hidden
+                         accept="image/*"
+                         onChange={(e) => e.target.files && setImage1(e.target.files[0])}
+                       />
+                       <Image
+                         className="max-w-24 cursor-pointer"
+                         src={image1 ? URL.createObjectURL(image1) : assets.upload_area}
+                         alt="Image 1"
+                         width={100}
+                         height={100}
+                       />
+                     </label>
+                     <label htmlFor="image2">
+                       <input
+                         type="file"
+                         id="image2"
+                         hidden
+                         accept="image/*"
+                         onChange={(e) => e.target.files && setImage2(e.target.files[0])}
+                       />
+                       <Image
+                         className="max-w-24 cursor-pointer"
+                         src={image2 ? URL.createObjectURL(image2) : assets.upload_area}
+                         alt="Image 2"
+                         width={100}
+                         height={100}
+                       />
+                     </label>
+                     <label htmlFor="image3">
+                       <input
+                         type="file"
+                         id="image3"
+                         hidden
+                         accept="image/*"
+                         onChange={(e) => e.target.files && setImage3(e.target.files[0])}
+                       />
+                       <Image
+                         className="max-w-24 cursor-pointer"
+                         src={image3 ? URL.createObjectURL(image3) : assets.upload_area}
+                         alt="Image 2"
+                         width={100}
+                         height={100}
+                       />
+                     </label>
+                     <label htmlFor="image4">
+                       <input
+                         type="file"
+                         id="image4"
+                         hidden
+                         accept="image/*"
+                         onChange={(e) => e.target.files && setImage4(e.target.files[0])}
+                       />
+                       <Image
+                         className="max-w-24 cursor-pointer"
+                         src={image4 ? URL.createObjectURL(image4) : assets.upload_area}
+                         alt="Image 2"
+                         width={100}
+                         height={100}
+                       />
+                     </label>
+                   </div>
         </div>
 
         {/* Image 2 */}
@@ -326,4 +336,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;
