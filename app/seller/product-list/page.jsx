@@ -105,6 +105,7 @@ const ProductList = () => {
                         <span className="hidden md:block">Edit</span>
                       </button>
                     </td>
+                    
                   </tr>
                 ))}
               </tbody>

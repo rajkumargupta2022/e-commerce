@@ -1,21 +1,12 @@
 {
   "app": {
-    "[project]/app/cart/page": [
+    "[project]/app/seller/product-list/page": [
       "static/media/QGYvz_MVcBeNP4NJtEtqUYLknw-s.p.07dd827d.woff2"
     ],
     "[project]/app/_not-found/page": [
       "static/media/QGYvz_MVcBeNP4NJtEtqUYLknw-s.p.07dd827d.woff2"
     ],
-    "[project]/app/order-placed/page": [
-      "static/media/QGYvz_MVcBeNP4NJtEtqUYLknw-s.p.07dd827d.woff2"
-    ],
-    "[project]/app/my-orders/page": [
-      "static/media/QGYvz_MVcBeNP4NJtEtqUYLknw-s.p.07dd827d.woff2"
-    ],
-    "[project]/app/page": [
-      "static/media/QGYvz_MVcBeNP4NJtEtqUYLknw-s.p.07dd827d.woff2"
-    ],
-    "[project]/app/seller/page": [
+    "[project]/app/seller/edit-product/[id]/page": [
       "static/media/QGYvz_MVcBeNP4NJtEtqUYLknw-s.p.07dd827d.woff2"
     ]
   },

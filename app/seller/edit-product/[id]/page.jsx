@@ -59,10 +59,10 @@ const EditProduct = () => {
     e.preventDefault();
 
     try {
-      if (!image1 || !image2) {
-        toast.error("Please upload at least two images!");
-        return;
-      }
+      // if (!image1 || !image2) {
+      //   toast.error("Please upload at least two images!");
+      //   return;
+      // }
 
       // ✅ Build FormData
       const formData = new FormData();
@@ -81,6 +81,7 @@ const EditProduct = () => {
       formData.append("price", Number(price));
       formData.append("quantity", Number(quantity));
       formData.append("color", color);
+      formData.append("id", id);
 
       // Debug: check what’s inside FormData
       for (let [key, value] of formData.entries()) {
@@ -88,7 +89,7 @@ const EditProduct = () => {
       }
 
       // ✅ Don’t set Content-Type manually
-      const res = await postRequest(endPoints.products, formData);
+      const res = await postRequest(endPoints.updateProduct, formData);
 
       if (res?.success) {
         toast.success("Product added successfully!");

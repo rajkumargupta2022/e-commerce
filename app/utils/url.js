@@ -13,6 +13,7 @@ export const endPoints={
   order:"order",
   allOrder:"all-order",
   remove:"cart/remove",
-  editProduct:"products/edit-product"
+  editProduct:"products/edit-product",
+  updateProduct:"products/update-product"
 
 }

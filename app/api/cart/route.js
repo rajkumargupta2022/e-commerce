@@ -35,7 +35,7 @@ export async function POST(req) {
 
     // Parse request body
     const { items } = await req.json();
-    
+
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ error: "Items array required" }, { status: 400 });
     }
@@ -54,24 +54,39 @@ export async function POST(req) {
       const product = await Product.findById(_id);
       if (!product) continue; // Skip if product doesn't exist
 
-      // Find item in cart
-      const itemIndex = cart.items.findIndex(item => item.productId.toString() === _id);
+      // ✅ Check available stock before adding
+      const existingItem = cart.items.find(
+        (item) => item.productId.toString() === _id
+      );
 
-      if (itemIndex > -1) {
-        // Product already in cart, update cartQuantity
-        cart.items[itemIndex].cartQuantity += cartQuantity;
+      const currentInCart = existingItem ? existingItem.cartQuantity : 0;
+      const totalAfterAdd = currentInCart + cartQuantity;
 
-        // Remove item if cartQuantity becomes 0 or less
-        if (cart.items[itemIndex].cartQuantity <= 0) {
-          cart.items.splice(itemIndex, 1);
+      if (totalAfterAdd > product.quantity) {
+        return NextResponse.json(
+          {
+            success: false,
+            msg: `Only ${product.quantity} units of "${product.name}" are available in stock.`,
+          },
+          { status: 200 }
+        );
+      }
+
+      // ✅ Update or add item to cart
+      if (existingItem) {
+        existingItem.cartQuantity += cartQuantity;
+
+        if (existingItem.cartQuantity <= 0) {
+          cart.items = cart.items.filter(
+            (item) => item.productId.toString() !== _id
+          );
         }
       } else {
-        // Product not in cart, add new item
         cart.items.push({ productId: _id, cartQuantity });
       }
     }
 
-    // Recalculate cart total
+    // ✅ Recalculate cart total
     cart.cartTotal = 0;
     for (let item of cart.items) {
       const product = await Product.findById(item.productId);
@@ -80,11 +95,13 @@ export async function POST(req) {
       }
     }
 
-    // Save the cart
+    // ✅ Save cart
     await cart.save();
 
-    return NextResponse.json({ msg: "Cart updated", success: true, data: cart }, { status: 200 });
-
+    return NextResponse.json(
+      { msg: "Cart updated", success: true, data: cart },
+      { status: 200 }
+    );
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });

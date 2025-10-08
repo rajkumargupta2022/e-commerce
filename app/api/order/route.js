@@ -70,7 +70,7 @@ export async function POST(req) {
       (acc, item) => acc + item.price * item.quantity,
       0
     );
-
+console.log("orderItems===========",orderItems)
     // ✅ Create order
     const order = await Order.create({
       userId,
@@ -84,7 +84,7 @@ export async function POST(req) {
     for (const item of orderItems) {
       await Product.findByIdAndUpdate(
         item.productId,
-        { $inc: { stock: -item.quantity } }, // Decrease stock count
+        { $inc: { quantity: -item.quantity } }, // Decrease stock count
         { new: true }
       );
     }

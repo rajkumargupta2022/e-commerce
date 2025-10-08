@@ -23,6 +23,8 @@ const MyOrders = () => {
                 const res = await getRequest(endPoints.order, token)
                 if (res.success) {
                     setOrders(res.data)
+                    console.log("====",res.data);
+                    
                 }
             } catch (err) {
                 router.push("/")
@@ -46,15 +48,17 @@ const MyOrders = () => {
                             <div key={index} className="flex flex-col md:flex-row gap-5 justify-between p-5 border-b border-gray-300">
                                 <div className="flex-1 flex gap-5 max-w-80">
                                     <Image
-                                        className="max-w-16 max-h-16 object-cover"
-                                        src={assets.box_icon}
+                                        className="max-w-16 max-h-16 object-cover rounded"
+                                        src={"/uploads/"+order?.items[0]?.images[0]}
                                         alt="box_icon"
+                                        width={45}
+                                        height={30}
                                     />
                                     <p className="flex flex-col gap-3">
                                         <span className="font-medium text-base">
                                             {order.items.map((item) => item.name + ` x ${item.quantity}`).join(", ")}
                                         </span>
-                                        <span>Items : {order.items.length}</span>
+                                        <span>Items : {order.items.length} </span>
                                     </p>
                                 </div>
                                 <div>

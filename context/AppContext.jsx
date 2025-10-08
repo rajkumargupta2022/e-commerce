@@ -120,17 +120,16 @@ export const AppContextProvider = (props) => {
         console.log("✅ Cart synced with server");
         toast.success("Cart updated");
       } else {
-        toast.error(res.data?.error || "Something went wrong");
+        toast.error(res.msg || "Something went wrong");
       }
     } catch (err) {
       console.error(err);
-      toast.error("Error syncing cart");
+      toast.error("Something went wrong");
     }
   };
 
   const deleteCart = async (_id) => {
     const token = localStorage.getItem("token");
-    console.log("_id",_id)
     if (token) {
       try {
         const res = await postRequest(
