@@ -70,8 +70,7 @@ export async function POST(req) {
       (acc, item) => acc + item.price * item.quantity,
       0
     );
-console.log("orderItems===========",orderItems)
-    // ✅ Create order
+
     const order = await Order.create({
       userId,
       items: orderItems,

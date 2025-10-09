@@ -5,8 +5,9 @@ import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
 import Footer from "@/components/seller/Footer";
 import Loading from "@/components/Loading";
-import { getRequest } from "@/app/utils/api-methods";
+import { getRequest, postRequest } from "@/app/utils/api-methods";
 import { endPoints } from "@/app/utils/url";
+import toast from "react-hot-toast";
 
 const ProductList = () => {
   const { router } = useAppContext();
@@ -29,6 +30,19 @@ const ProductList = () => {
     fetchSellerProduct();
   }, []);
 
+  const deleteProduct = async (id) => {
+    try {
+      const res = await postRequest(endPoints.deleteProduct, { id });
+      if (res.success) {
+        toast.success(res.msg);
+         fetchSellerProduct();
+      } else {
+        toast.error(res.msg);
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    }
+  };
   return (
     <div className="flex-1 min-h-screen flex flex-col justify-between">
       {loading ? (
@@ -43,17 +57,17 @@ const ProductList = () => {
                   <th className="w-2/3 md:w-2/5 px-4 py-3 font-medium truncate">
                     Images
                   </th>
-                
+
                   <th className="px-4 py-3 font-medium truncate max-sm:hidden">
                     Category
                   </th>
-                     <th className="px-4 py-3 font-medium truncate max-sm:hidden">
+                  <th className="px-4 py-3 font-medium truncate max-sm:hidden">
                     Febric
                   </th>
-                   <th className="px-4 py-3 font-medium truncate max-sm:hidden">
+                  <th className="px-4 py-3 font-medium truncate max-sm:hidden">
                     Quantity
                   </th>
-                    <th className="px-4 py-3 font-medium truncate max-sm:hidden">
+                  <th className="px-4 py-3 font-medium truncate max-sm:hidden">
                     Color
                   </th>
                   <th className="px-4 py-3 font-medium truncate">Price</th>
@@ -85,15 +99,13 @@ const ProductList = () => {
                     <td className="px-4 py-3 max-sm:hidden">
                       {product.category}
                     </td>
-                      <td className="px-4 py-3 max-sm:hidden">
+                    <td className="px-4 py-3 max-sm:hidden">
                       {product.febricCategory}
                     </td>
                     <td className="px-4 py-3 max-sm:hidden">
                       {product.quantity}
                     </td>
-                    <td className="px-4 py-3 max-sm:hidden">
-                      {product.color}
-                    </td>
+                    <td className="px-4 py-3 max-sm:hidden">{product.color}</td>
                     <td className="px-4 py-3">${product.price}</td>
                     <td className="px-4 py-3 max-sm:hidden">
                       <button
@@ -104,8 +116,13 @@ const ProductList = () => {
                       >
                         <span className="hidden md:block">Edit</span>
                       </button>
+                      <button
+                        onClick={()=>deleteProduct(product._id)}
+                        className="flex items-center gap-1 px-1.5 md:px-3.5 py-2 bg-orange-600 text-white rounded-md"
+                      >
+                        <span className="hidden md:block">Delete</span>
+                      </button>
                     </td>
-                    
                   </tr>
                 ))}
               </tbody>

@@ -20,7 +20,7 @@ const OrderSchema = new mongoose.Schema(
     items: [OrderItemSchema],
     totalAmount: { type: Number, required: true },
     addressId: { type: mongoose.Schema.Types.ObjectId, ref: "Address", required: true },
-    status: { type: String, default: "pending" },
+    status: { type: String, default: "Pending" },
     paymentMethod: { type: String, required: true },
   },
   { timestamps: true }

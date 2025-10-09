@@ -7,9 +7,11 @@ import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
 import { getRequest, postRequest } from "@/app/utils/api-methods";
 import { endPoints } from "@/app/utils/url";
+import { useRouter } from "next/navigation";
 
 const EditProduct = () => {
   const { id } = useParams();
+   const router = useRouter();
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
@@ -28,11 +30,6 @@ const EditProduct = () => {
     console.log("idddd",id)
     const res = await postRequest(endPoints.editProduct,{id});
     if (res?.success && res.data) {
-     
-      // setImage1(res.data.images[0]??null);
-      // setImage2(res.data.images[1]??null);
-      // setImage3(res.data.images[2]??null);
-      // setImage4(res.data.images[3]??null);
       setName(res.data.name ?? "");
       setDescription(res.data.description ?? "");
       setColor(res.data.color ?? "");
@@ -105,6 +102,7 @@ const EditProduct = () => {
         setFebricCategory("Cotton");
         setSize("M");
         setPrice("");
+         router.push("/seller/product-list");
       }
     } catch (err) {
       console.error(err);
@@ -330,7 +328,7 @@ const EditProduct = () => {
           type="submit"
           className="px-8 py-2.5 bg-orange-600 text-white font-medium rounded"
         >
-          ADD
+          Update
         </button>
       </form>
     </div>

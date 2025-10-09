@@ -205,7 +205,7 @@ const Navbar = () => {
           )}
         </div>
 
-        <button className="flex items-center gap-2 hover:text-gray-900 transition">
+        <button className="flex items-center gap-2 hover:text-gray-900 transition" onClick={()=>{router.push("/my-orders")}}>
           <Image src={assets.user_icon} alt="user icon" />
           Account
         </button>

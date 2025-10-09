@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
 
 const AddProduct = () => {
+  
   const { id } = useParams();
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
@@ -94,6 +95,7 @@ const AddProduct = () => {
         setFebricCategory("Cotton");
         setSize("M");
         setPrice("");
+       
       }
     } catch (err) {
       console.error(err);
