@@ -1,18 +1,6 @@
 {
-  "/seller/orders/page": "app/seller/orders/page.js",
-  "/api/all-order/route": "app/api/all-order/route.js",
-  "/api/cart/route": "app/api/cart/route.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/order/order-complete/route": "app/api/order/order-complete/route.js",
-  "/seller/product-list/page": "app/seller/product-list/page.js",
   "/api/products/route": "app/api/products/route.js",
-  "/seller/edit-product/[id]/page": "app/seller/edit-product/[id]/page.js",
-  "/api/products/edit-product/route": "app/api/products/edit-product/route.js",
-  "/api/products/update-product/route": "app/api/products/update-product/route.js",
   "/page": "app/page.js",
-  "/seller/page": "app/seller/page.js",
   "/category/[id]/page": "app/category/[id]/page.js",
-  "/api/products-by-category/route": "app/api/products-by-category/route.js",
-  "/my-orders/page": "app/my-orders/page.js",
-  "/api/order/route": "app/api/order/route.js"
+  "/api/products-by-category/route": "app/api/products-by-category/route.js"
 }
