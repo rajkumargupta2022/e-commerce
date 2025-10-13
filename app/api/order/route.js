@@ -7,6 +7,13 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "@/app/utils/url";
 
+
+function generateShortOrderID() {
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const millis = now.getTime().toString(); // last 5 digits
+    return `ORDLA${dateStr}-${millis}`;
+}
 export async function POST(req) {
   try {
     await dbConnect();
@@ -65,7 +72,7 @@ export async function POST(req) {
         size: product.size || "",
       };
     });
-
+     let orderId= generateShortOrderID()
     const totalAmount = orderItems.reduce(
       (acc, item) => acc + item.price * item.quantity,
       0
@@ -75,6 +82,7 @@ export async function POST(req) {
       userId,
       items: orderItems,
       totalAmount,
+      orderId,
       addressId,
       paymentMethod,
     });
