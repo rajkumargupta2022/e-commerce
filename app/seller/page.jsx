@@ -5,11 +5,20 @@ import Image from "next/image";
 import { postRequest } from "../utils/api-methods";
 import { endPoints } from "../utils/url";
 import toast from "react-hot-toast";
+import Select from "react-select";
 import { useParams } from "next/navigation";
 
 const AddProduct = () => {
-  
-  const { id } = useParams();
+  const sizeOptions = [
+    { value: "XS", label: "XS" },
+    { value: "S", label: "S" },
+    { value: "M", label: "M" },
+    { value: "L", label: "L" },
+    { value: "XL", label: "XL" },
+    { value: "XXL", label: "XXL" },
+    { value: "XXXL", label: "XXXL" },
+  ];
+  // const { id } = useParams();
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
@@ -18,43 +27,46 @@ const AddProduct = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("Short Kurtas");
   const [febricCategory, setFebricCategory] = useState("Cotton");
-  const [size, setSize] = useState("M");
+  const [size, setSize] = useState([]);
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [color, setColor] = useState("");
 
-  const productById = async () => {
-    try {
-      const res = await getRequest(endPoints.products + id);
-      if (res.success) {
-        setImage1(null);
-        setImage2(null);
-        setImage3(null);
-        setImage4(null);
-        setName("");
-        setDescription(res.data.description);
-        setColor(res.data.color ?? "");
-        setCategory(res.data.category);
-        setFebricCategory(res.data.febricCategory);
-        setSize(res.data.size);
-        setPrice(res.data.price);
-      }
-    } catch (err) {}
-  };
-  useEffect(() => {
-    if(id){
-      productById();
-    }
-  }, []);
+  // const productById = async () => {
+  //   try {
+  //     const res = await getRequest(endPoints.products + id);
+  //     if (res.success) {
+  //       setImage1(null);
+  //       setImage2(null);
+  //       setImage3(null);
+  //       setImage4(null);
+  //       setName("");
+  //       setDescription(res.data.description);
+  //       setColor(res.data.color ?? "");
+  //       setCategory(res.data.category);
+  //       setFebricCategory(res.data.febricCategory);
+  //       setSize(res.data.size);
+  //       setPrice(res.data.price);
+  //     }
+  //   } catch (err) {}
+  // };
+  // useEffect(() => {
+  //   if(id){
+  //     productById();
+  //   }
+  // }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      if (!image1 || !image2) {
-        toast.error("Please upload at least two images!");
+      if (!image1) {
+        toast.error("Please upload at least one image!");
         return;
       }
-
+      if (size.length <= 0) {
+        toast.error("Please add size");
+        return;
+      }
       // ✅ Build FormData
       const formData = new FormData();
       const images = [image1, image2, image3, image4];
@@ -63,12 +75,13 @@ const AddProduct = () => {
         if (img) formData.append("images", img); // append File objects
       });
 
+      const values = size.map((option) => option.value);
       // other fields
       formData.append("name", name);
       formData.append("description", description);
       formData.append("category", category);
       formData.append("febricCategory", febricCategory);
-      formData.append("size", size);
+      formData.append("size", values);
       formData.append("price", Number(price));
       formData.append("quantity", Number(quantity));
       formData.append("color", color);
@@ -95,12 +108,14 @@ const AddProduct = () => {
         setFebricCategory("Cotton");
         setSize("M");
         setPrice("");
-       
       }
     } catch (err) {
       console.error(err);
       toast.error("Error submitting product");
     }
+  };
+  const sizeHandle = (selectedOptions) => {
+    setSize(selectedOptions);
   };
 
   return (
@@ -213,7 +228,21 @@ const AddProduct = () => {
             required
           ></textarea>
         </div>
+        <div className="flex flex-col gap-1 max-w-md">
+          <label className="text-base font-medium" htmlFor="size">
+            Size
+          </label>
 
+          <Select
+            // defaultValue={[sizeOptions[2], sizeOptions[3]]}
+            isMulti
+            name="size"
+            onChange={sizeHandle}
+            options={sizeOptions}
+            className="basic-multi-select"
+            classNamePrefix="select"
+          />
+        </div>
         {/* Category & Size & Price */}
         <div className="flex items-center gap-5 flex-wrap">
           <div className="flex flex-col gap-1 w-32">
@@ -249,26 +278,6 @@ const AddProduct = () => {
               <option value="Modal<">Modal</option>
               <option value="Orgnaza">Orgnaza</option>
               <option value="Mulmul">Mulmul</option>
-            </select>
-          </div>
-
-          <div className="flex flex-col gap-1 w-32">
-            <label className="text-base font-medium" htmlFor="size">
-              Size
-            </label>
-            <select
-              id="size"
-              className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
-              onChange={(e) => setSize(e.target.value)}
-              value={size}
-            >
-              <option value="XS">XS</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
-              <option value="2XL">2XL</option>
-              <option value="3XL">3XL</option>
             </select>
           </div>
 

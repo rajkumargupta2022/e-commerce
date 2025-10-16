@@ -1,13 +1,16 @@
 {
   "pages": {
-    "/page": [
+    "/seller/page": [
       "static/chunks/[root of the server]__f2c6b3._.css",
       "static/chunks/_211afe._.js",
       "static/chunks/node_modules_803096._.js",
       "static/chunks/app_layout_61af54.js",
-      "static/chunks/_725731._.js",
-      "static/chunks/node_modules_90cde0._.js",
-      "static/chunks/app_page_jsx_7a7ea1._.js",
+      "static/chunks/node_modules_next_59721e._.js",
+      "static/chunks/_18ede3._.js",
+      "static/chunks/app_seller_layout_jsx_7a7ea1._.js",
+      "static/chunks/node_modules_b18d03._.js",
+      "static/chunks/app_seller_page_jsx_a446cc._.js",
+      "static/chunks/app_seller_page_jsx_b74d3e._.js",
       "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc._.js",
       "static/chunks/node_modules_next_dist_compiled_107ce8._.js",
       "static/chunks/node_modules_next_dist_client_523921._.js",
@@ -17,14 +20,30 @@
       "static/chunks/_e69f0d._.js",
       "static/chunks/_d95469._.js"
     ],
-    "/category/[id]/page": [
+    "/_not-found/page": [
       "static/chunks/[root of the server]__f2c6b3._.css",
       "static/chunks/_211afe._.js",
       "static/chunks/node_modules_803096._.js",
       "static/chunks/app_layout_61af54.js",
-      "static/chunks/_ac5539._.js",
-      "static/chunks/node_modules_90cde0._.js",
-      "static/chunks/app_category_[id]_page_jsx_7a7ea1._.js",
+      "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc._.js",
+      "static/chunks/node_modules_next_dist_compiled_107ce8._.js",
+      "static/chunks/node_modules_next_dist_client_523921._.js",
+      "static/chunks/node_modules_next_dist_4bb10e._.js",
+      "static/chunks/node_modules_@swc_helpers_cjs_00636a._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_d0a96d._.js",
+      "static/chunks/_e69f0d._.js",
+      "static/chunks/_d95469._.js"
+    ],
+    "/seller/product-list/page": [
+      "static/chunks/[root of the server]__f2c6b3._.css",
+      "static/chunks/_211afe._.js",
+      "static/chunks/node_modules_803096._.js",
+      "static/chunks/app_layout_61af54.js",
+      "static/chunks/node_modules_next_59721e._.js",
+      "static/chunks/_18ede3._.js",
+      "static/chunks/app_seller_layout_jsx_7a7ea1._.js",
+      "static/chunks/_c94f29._.js",
+      "static/chunks/app_seller_product-list_page_jsx_b74d3e._.js",
       "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc._.js",
       "static/chunks/node_modules_next_dist_compiled_107ce8._.js",
       "static/chunks/node_modules_next_dist_client_523921._.js",

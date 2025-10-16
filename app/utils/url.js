@@ -17,5 +17,7 @@ export const endPoints={
   updateProduct:"products/update-product",
   deleteProduct:"products/delete-product",
   orderComplete:"order/order-complete",
+  category:"category",
+  febric:"febric"
 
 }

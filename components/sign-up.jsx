@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 const initialValue ={
     name: "",
     phoneNumber: "",
+    confirmPhoneNumber: "",
     email: "",
     password: "",
 }
@@ -33,6 +34,10 @@ function Signup({show,setShow}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
+    if(formData.phoneNumber!==formData.confirmPhoneNumber){
+      toast.error("Confirm Mobile number doen not match with Phone number")
+      return
+    }
 
     if (form.checkValidity() === false) {
       e.stopPropagation();
@@ -95,6 +100,20 @@ function Signup({show,setShow}) {
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid 10-digit phone number.
+              </Form.Control.Feedback>
+            </Form.Group>
+             <Form.Group className="mb-3">
+              <Form.Label>Confirm Phone Number</Form.Label>
+              <Form.Control
+                required
+                pattern="^[0-9]{10}$"
+                type="text"
+                name="confirmPhoneNumber"
+                value={formData.confirmPhoneNumber}
+                onChange={handleChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Please enter same Mobile Number
               </Form.Control.Feedback>
             </Form.Group>
 
