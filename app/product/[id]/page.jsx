@@ -54,7 +54,7 @@ const Product = () => {
           <div className="px-5 lg:px-16 xl:px-20">
             <div className="rounded-lg overflow-hidden bg-gray-500/10 mb-4">
               <Image
-                src={`/uploads/${mainImage || productData.images[0]}`}
+                src={`/uploads/${mainImage || productData?.images[0]}`}
                 alt="alt"
                 className="w-full h-auto object-cover mix-blend-multiply"
                 width={1280}
@@ -117,7 +117,7 @@ const Product = () => {
             </div> */}
             <p className="text-gray-600">{productData.description}</p>
             <p className="text-3xl font-medium">
-              ₹{productData.price}
+              ₹{productData?.price}
             </p>
             <hr className="bg-gray-600 my-6" />
             <div className="overflow-x-auto">
