@@ -75,13 +75,15 @@ const AddProduct = () => {
         if (img) formData.append("images", img); // append File objects
       });
 
-      const values = size.map((option) => option.value);
-      // other fields
+     
+      size.forEach((item) => {
+        formData.append("size", item.value);
+      });
+    
       formData.append("name", name);
       formData.append("description", description);
       formData.append("category", category);
       formData.append("febricCategory", febricCategory);
-      formData.append("size", values);
       formData.append("price", Number(price));
       formData.append("quantity", Number(quantity));
       formData.append("color", color);
@@ -115,6 +117,7 @@ const AddProduct = () => {
     }
   };
   const sizeHandle = (selectedOptions) => {
+    console.log("selectedOptions,selectedOptions", selectedOptions);
     setSize(selectedOptions);
   };
 

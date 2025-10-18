@@ -67,13 +67,13 @@ export async function POST(req) {
       const savedImages = await Promise.all(imageFiles.map((file) => saveFile(file)));
       updatedImages = savedImages;
     }
-
-    // Update fields
+ const size = formData.getAll("size");
+   console.log("size======",size)
     product.name = formData.get("name") || product.name;
     product.category = formData.get("category") || product.category;
     product.febricCategory = formData.get("febricCategory") || product.febricCategory;
     product.price = formData.get("price") || product.price;
-    product.size = formData.get("size") || product.size;
+    product.size = size || product.size;
     product.description = formData.get("description") || product.description;
     product.quantity = formData.get("quantity") || product.quantity;
     product.color = formData.get("color") || product.color;

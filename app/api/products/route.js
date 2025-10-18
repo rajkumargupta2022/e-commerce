@@ -31,6 +31,7 @@ export async function POST(req) {
     const formData = await req.formData();
 
     const imageFiles = formData.getAll("images");
+    const size = formData.getAll("size");
 
 // 👇 await Promise.all directly instead of wrapping in async/await in map
 const savedImages = await Promise.all(
@@ -43,7 +44,7 @@ const savedImages = await Promise.all(
       category: formData.get("category"),
       febricCategory: formData.get("febricCategory"),
       price: formData.get("price"),
-      size: formData.get("size"),
+      size: size,
       description: formData.get("description"),
       quantity: formData.get("quantity"),
       color: formData.get("color"),

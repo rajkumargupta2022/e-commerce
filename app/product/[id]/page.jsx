@@ -9,20 +9,22 @@ import { useParams } from "next/navigation";
 import Loading from "@/components/Loading";
 import { AppContext, useAppContext } from "@/context/AppContext";
 import React from "react";
-import { getRequest } from "@/app/utils/api-methods";
+import { getRequest, postRequest } from "@/app/utils/api-methods";
 import { endPoints } from "@/app/utils/url";
 
 const Product = () => {
   const { id } = useParams();
-  const {addToCart} = useAppContext()
+  const { addToCart } = useAppContext();
   const [mainImage, setMainImage] = useState(null);
   const [productData, setProductData] = useState(null);
   const [productList, setProductList] = useState(null);
+  const [selectedSize, setSelectedSize] = useState("");
 
   const fetchProductData = async () => {
     try {
-      const res = await getRequest(endPoints.products + "/" + id);
-      if (res.success) {
+      const res = await postRequest(endPoints.editProduct, { id });
+      if (res?.success && res.data) {
+        console.log(res.data.size);
         fetchDataBycategory(res.data?.category);
         setProductData(res.data);
       }
@@ -53,13 +55,13 @@ const Product = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           <div className="px-5 lg:px-16 xl:px-20">
             <div className="rounded-lg overflow-hidden bg-gray-500/10 mb-4">
-              <Image
+              {/* <Image
                 src={`/uploads/${mainImage || productData?.images[0]}`}
                 alt="alt"
                 className="w-full h-auto object-cover mix-blend-multiply"
                 width={1280}
                 height={720}
-              />
+              /> */}
             </div>
 
             <div className="grid grid-cols-4 gap-4">
@@ -116,9 +118,7 @@ const Product = () => {
               <p>(4.5)</p>
             </div> */}
             <p className="text-gray-600">{productData.description}</p>
-            <p className="text-3xl font-medium">
-              ₹{productData?.price}
-            </p>
+            <p className="text-3xl font-medium">₹{productData?.price}</p>
             <hr className="bg-gray-600 my-6" />
             <div className="overflow-x-auto">
               <table className="table-auto border-collapse w-full max-w-72">
@@ -129,7 +129,14 @@ const Product = () => {
                   </tr>
                   <tr>
                     <td className="text-gray-600 font-medium">Color</td>
-                    <td className="text-gray-800/50 ">Multi</td>
+                    <td className="text-gray-800/50">
+                      <div className="flex flex-wrap gap-2">
+                        {productData.size.map((item, index) => {
+         
+                          return <button key={index}>{item}</button>;
+                        })}
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <td className="text-gray-600 font-medium">Category</td>

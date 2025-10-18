@@ -28,13 +28,13 @@ const ProductCard = ({ product }) => {
       <p className="w-full text-xs text-gray-500/70 max-sm:hidden truncate">
         {product.description}
       </p>
-      {!product.quantity && (
+      {!product?.quantity && (
         <p className="w-full text-xs text-red-500/70 max-sm:hidden truncate">
           Out of stock
         </p>
       )}
       <div className="flex items-end justify-between w-full mt-1">
-        <p className="text-base font-medium">₹{product.price}</p>
+        <p className="text-base font-medium">₹{product?.price}</p>
         <button
           onClick={() => addToCart(product)}
           className=" max-sm:hidden px-4 py-1.5 text-gray-500 border border-gray-500/20 rounded-full text-xs hover:bg-slate-50 transition"

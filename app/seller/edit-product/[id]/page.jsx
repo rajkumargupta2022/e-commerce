@@ -8,8 +8,18 @@ import { useParams } from "next/navigation";
 import { getRequest, postRequest } from "@/app/utils/api-methods";
 import { endPoints } from "@/app/utils/url";
 import { useRouter } from "next/navigation";
+import Select from "react-select";
 
 const EditProduct = () => {
+    const sizeOptions = [
+    { value: "XS", label: "XS" },
+    { value: "S", label: "S" },
+    { value: "M", label: "M" },
+    { value: "L", label: "L" },
+    { value: "XL", label: "XL" },
+    { value: "XXL", label: "XXL" },
+    { value: "XXXL", label: "XXXL" },
+  ];
   const { id } = useParams();
    const router = useRouter();
   const [image1, setImage1] = useState(null);
@@ -20,7 +30,8 @@ const EditProduct = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("Short Kurtas");
   const [febricCategory, setFebricCategory] = useState("Cotton");
-  const [size, setSize] = useState("M");
+  const [size, setSize] = useState([]);
+  const [showSelection, setShowSelection] = useState([]);
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [color, setColor] = useState("");
@@ -35,7 +46,14 @@ const EditProduct = () => {
       setColor(res.data.color ?? "");
       setCategory(res.data.category ?? "");
       setFebricCategory(res.data.febricCategory ?? "");
-      setSize(res.data.size ?? "");
+      setSize(res.data.size ?? []);
+     setShowSelection(
+  res.data.size.map((item) => ({
+    label: item,
+    value: item
+  }))
+);
+      setShowSelection()
       setPrice(res.data.price ?? 0);
       setQuantity(res.data.quantity)
     } else {
@@ -68,13 +86,14 @@ const EditProduct = () => {
       images.forEach((img) => {
         if (img) formData.append("images", img); // append File objects
       });
-
+      size.forEach((item) => {
+        formData.append("size", item.value);
+      });
       // other fields
       formData.append("name", name);
       formData.append("description", description);
       formData.append("category", category);
       formData.append("febricCategory", febricCategory);
-      formData.append("size", size);
       formData.append("price", Number(price));
       formData.append("quantity", Number(quantity));
       formData.append("color", color);
@@ -100,7 +119,7 @@ const EditProduct = () => {
         setColor("");
         setCategory("Short Kurtas");
         setFebricCategory("Cotton");
-        setSize("M");
+        setSize([]);
         setPrice("");
          router.push("/seller/product-list");
       }
@@ -109,6 +128,12 @@ const EditProduct = () => {
       toast.error("Error submitting product");
     }
   };
+   const sizeHandle = (selectedOptions) => {
+    console.log("selectedOptions,selectedOptions", selectedOptions);
+    setSize(selectedOptions);
+    setShowSelection(selectedOptions)
+  };
+
 
   return (
     <div className="flex-1 min-h-screen flex flex-col justify-between">
@@ -220,6 +245,22 @@ const EditProduct = () => {
             required
           ></textarea>
         </div>
+          <div className="flex flex-col gap-1 max-w-md">
+          <label className="text-base font-medium" htmlFor="size">
+            Size
+          </label>
+
+          <Select
+            // defaultValue={[showSelection]}
+            isMulti
+            name="size"
+           
+            onChange={sizeHandle}
+            options={sizeOptions}
+            className="basic-multi-select"
+            classNamePrefix="select"
+          />
+        </div>
 
         {/* Category & Size & Price */}
         <div className="flex items-center gap-5 flex-wrap">
@@ -259,25 +300,7 @@ const EditProduct = () => {
             </select>
           </div>
 
-          <div className="flex flex-col gap-1 w-32">
-            <label className="text-base font-medium" htmlFor="size">
-              Size
-            </label>
-            <select
-              id="size"
-              className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
-              onChange={(e) => setSize(e.target.value)}
-              value={size}
-            >
-              <option value="XS">XS</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
-              <option value="2XL">2XL</option>
-              <option value="3XL">3XL</option>
-            </select>
-          </div>
+          
 
           <div className="flex flex-col gap-1 w-32">
             <label className="text-base font-medium" htmlFor="product-price">
