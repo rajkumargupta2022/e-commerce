@@ -50,17 +50,20 @@ export const AppContextProvider = (props) => {
     }
   };
 
-  const addToCart = async (item) => {
+  const addToCart = async (item, size) => {
     // Get previous cart store
-
+    if (!size) {
+      toast.error("Plaese select size");
+      return;
+    }
     let token = localStorage.getItem("token");
     if (token) {
-      forServer(item);
+      forServer(item, size);
     } else {
-      forLocal(item);
+      forLocal(item, size);
     }
   };
-  const forLocal = (item) => {
+  const forLocal = (item, size) => {
     let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
       cart: [],
       cartTotal: 0,
@@ -71,11 +74,13 @@ export const AppContextProvider = (props) => {
 
     if (cartData.length === 0) {
       item.cartQuantity = 1;
+      item.size = size;
       cartData.push(item);
     } else {
       for (let i = 0; i < cartData.length; i++) {
-        if (cartData[i]._id === item._id) {
+        if (cartData[i]._id === item._id && cartData[i].size === size) {
           cartData[i].cartQuantity++;
+          item.size = size;
           flag = true;
           break;
         }
@@ -97,22 +102,18 @@ export const AppContextProvider = (props) => {
     setCartItems(cartStore);
   };
 
-  const forServer = async (cartData) => {
-    console.log("cartdata from api calling",cartData);
-    
+  const forServer = async (cartData,size) => {
+    console.log("cartdata from api calling", cartData);
+
     try {
       const token = localStorage.getItem("token");
-      const requestData = {
-        items: [
-          {
-            _id: cartData._id ? cartData._id : cartData.productId, // Assuming cartData has the _id for productId
-            cartQuantity: 1,
-          },
-        ],
-      };
+   
 
       // Send the request to the API
-      const res = await postRequest(endPoints.cart, requestData, token);
+      cartData.cartQuantity=cartData?.cartQuantity>0?cartData?.cartQuantity+1:1
+      cartData.size=size
+      cartData.productId=cartData._id || cartData.productId 
+      const res = await postRequest(endPoints.cart, cartData, token);
 
       // Check the response
       if (res.success) {
@@ -138,7 +139,7 @@ export const AppContextProvider = (props) => {
           token
         );
         if (res.success) {
-          fetchCartData()
+          fetchCartData();
           toast.success("Cart remove successfully");
         } else {
           toast.success("Cart remove failed");
@@ -147,49 +148,50 @@ export const AppContextProvider = (props) => {
         toast.success("Cart remove failed");
       }
     } else {
-        let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
-    cart: [],
-    cartTotal: 0,
-  };
+      let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {
+        cart: [],
+        cartTotal: 0,
+      };
 
-  if (cartStore?.cart?.length > 0) {
-    // Loop through cart items and decrease quantity if found
-    const updatedCart = cartStore.cart
-      .map((item) => {
-        if (item._id === _id) {
-          const updatedQuantity = (item.cartQuantity || 1) - 1;
-          // Only keep item if quantity > 0
-          return updatedQuantity > 0
-            ? { ...item, cartQuantity: updatedQuantity }
-            : null;
-        }
-        return item;
-      })
-      .filter(Boolean); // remove null items (quantity 0)
+      if (cartStore?.cart?.length > 0) {
+        // Loop through cart items and decrease quantity if found
+        const updatedCart = cartStore.cart
+          .map((item) => {
+            if (item._id === _id) {
+              const updatedQuantity = (item.cartQuantity || 1) - 1;
+              // Only keep item if quantity > 0
+              return updatedQuantity > 0
+                ? { ...item, cartQuantity: updatedQuantity }
+                : null;
+            }
+            return item;
+          })
+          .filter(Boolean); // remove null items (quantity 0)
 
-    // Recalculate total
-    const newTotal = updatedCart.reduce(
-      (sum, item) => sum + item.price * (item.cartQuantity || 1),
-      0
-    );
+        // Recalculate total
+        const newTotal = updatedCart.reduce(
+          (sum, item) => sum + item.price * (item.cartQuantity || 1),
+          0
+        );
 
-    // Update cart store
-    cartStore = {
-      ...cartStore,
-      cart: updatedCart,
-      cartTotal: newTotal,
-    };
+        // Update cart store
+        cartStore = {
+          ...cartStore,
+          cart: updatedCart,
+          cartTotal: newTotal,
+        };
 
-    // Save to localStorage
-    localStorage.setItem("cartStore", JSON.stringify(cartStore));
+        // Save to localStorage
+        localStorage.setItem("cartStore", JSON.stringify(cartStore));
 
-    // Update state
-    setCartItems(cartStore);
+        // Update state
+        setCartItems(cartStore);
 
-    toast.success("Product quantity updated successfully");
-  } else {
-    toast.info("Cart is empty");
-  }}
+        toast.success("Product quantity updated successfully");
+      } else {
+        toast.info("Cart is empty");
+      }
+    }
   };
   const decreaseCartQuantity = (_id) => {
     let cartStore = JSON.parse(localStorage.getItem("cartStore")) || {

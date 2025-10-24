@@ -5,9 +5,11 @@ import OrderSummary from "@/components/OrderSummary";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import { useAppContext } from "@/context/AppContext";
+import Login from "@/components/Login";
 
 const Cart = () => {
   const { cartItems, addToCart,deleteCart } = useAppContext();
+   const [loginModel, setLoginModel] = useState(false);
  
  useEffect(()=>{
 console.log("=========",cartItems)
@@ -39,6 +41,9 @@ console.log("=========",cartItems)
                   <th className="pb-6 md:px-4 px-1 text-gray-600 font-medium">
                     Quantity
                   </th>
+                    <th className="pb-6 md:px-4 px-1 text-gray-600 font-medium">
+                    Size
+                  </th>
                   <th className="pb-6 md:px-4 px-1 text-gray-600 font-medium">
                     Subtotal
                   </th>
@@ -59,21 +64,10 @@ console.log("=========",cartItems)
                               height={720}
                             />
                           </div>
-                          {/* <button
-                            className="md:hidden text-xs text-orange-600 mt-1"
-                           onClick={() => deleteCart(product?._id)}
-                          >
-                            Remove
-                          </button> */}
                         </div>
                         <div className="text-sm hidden md:block">
                           <p className="text-gray-800">{product?.name}</p>
-                          {/* <button
-                            className="text-xs text-orange-600 mt-1"
-                           onClick={() => deleteCart(product?.productId)}
-                          >
-                            Remove
-                          </button> */}
+                    
                         </div>
                       </td>
                       <td className="py-4 md:px-4 px-1 text-gray-600">
@@ -89,7 +83,7 @@ console.log("=========",cartItems)
                             />
                           </button>
                           <p>{product.cartQuantity}</p>
-                          <button onClick={() => addToCart(product)}>
+                          <button onClick={() => addToCart(product,product.size)}>
                             <Image
                               src={assets.increase_arrow}
                               alt="increase_arrow"
@@ -97,6 +91,9 @@ console.log("=========",cartItems)
                             />
                           </button>
                         </div>
+                      </td>
+                         <td className="py-4 md:px-4 px-1 text-gray-600">
+                       {product.size}
                       </td>
                       <td className="py-4 md:px-4 px-1 text-gray-600">
                         ₹{(product.price * product.cartQuantity).toFixed(2)}
@@ -120,6 +117,7 @@ console.log("=========",cartItems)
           </button>
         </div>
         <OrderSummary />
+          <Login show={loginModel} setShow={setLoginModel} />
       </div>
     </>
   );

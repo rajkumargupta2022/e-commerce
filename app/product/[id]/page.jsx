@@ -11,14 +11,16 @@ import { AppContext, useAppContext } from "@/context/AppContext";
 import React from "react";
 import { getRequest, postRequest } from "@/app/utils/api-methods";
 import { endPoints } from "@/app/utils/url";
+import Login from "@/components/Login";
 
 const Product = () => {
   const { id } = useParams();
-  const { addToCart } = useAppContext();
+  const { addToCart, router } = useAppContext();
   const [mainImage, setMainImage] = useState(null);
   const [productData, setProductData] = useState(null);
   const [productList, setProductList] = useState(null);
   const [selectedSize, setSelectedSize] = useState("");
+  const [loginModel, setLoginModel] = useState(false);
 
   const fetchProductData = async () => {
     try {
@@ -48,20 +50,38 @@ const Product = () => {
     fetchProductData();
   }, []);
 
+  const byNow = (data, size) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      addToCart(data, size);
+      router.push("/cart");
+    } else {
+      setLoginModel(true);
+    }
+  };
+  const inCart = (data, size) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      addToCart(data, size);
+    } else {
+      setLoginModel(true);
+    }
+  };
   return productData ? (
     <>
       <Navbar />
+      <Login show={loginModel} setShow={setLoginModel} />
+
       <div className="px-6 md:px-16 lg:px-32 pt-14 space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           <div className="px-5 lg:px-16 xl:px-20">
-            <div className="rounded-lg overflow-hidden bg-gray-500/10 mb-4">
-              {/* <Image
+            <div className="relative rounded-lg overflow-hidden bg-gray-500/10 mb-4 w-[250px] h-[290px]">
+              <Image
                 src={`/uploads/${mainImage || productData?.images[0]}`}
                 alt="alt"
-                className="w-full h-auto object-cover mix-blend-multiply"
-                width={1280}
-                height={720}
-              /> */}
+                fill
+                className="object-cover mix-blend-multiply"
+              />
             </div>
 
             <div className="grid grid-cols-4 gap-4">
@@ -87,36 +107,7 @@ const Product = () => {
             <h1 className="text-3xl font-medium text-gray-800/90 mb-4">
               {productData.name}
             </h1>
-            {/* <div className="flex items-center gap-2">
-              <div className="flex items-center gap-0.5">
-                <Image
-                  className="h-4 w-4"
-                  src={assets.star_icon}
-                  alt="star_icon"
-                />
-                <Image
-                  className="h-4 w-4"
-                  src={assets.star_icon}
-                  alt="star_icon"
-                />
-                <Image
-                  className="h-4 w-4"
-                  src={assets.star_icon}
-                  alt="star_icon"
-                />
-                <Image
-                  className="h-4 w-4"
-                  src={assets.star_icon}
-                  alt="star_icon"
-                />
-                <Image
-                  className="h-4 w-4"
-                  src={assets.star_dull_icon}
-                  alt="star_dull_icon"
-                />
-              </div>
-              <p>(4.5)</p>
-            </div> */}
+
             <p className="text-gray-600">{productData.description}</p>
             <p className="text-3xl font-medium">₹{productData?.price}</p>
             <hr className="bg-gray-600 my-6" />
@@ -124,16 +115,28 @@ const Product = () => {
               <table className="table-auto border-collapse w-full max-w-72">
                 <tbody>
                   <tr>
-                    <td className="text-gray-600 font-medium">Brand</td>
-                    <td className="text-gray-800/50 ">Generic</td>
+                    <td className="text-gray-600 font-medium">Color</td>
+                    <td className="text-gray-800/50 ">{productData.color}</td>
                   </tr>
                   <tr>
-                    <td className="text-gray-600 font-medium">Color</td>
+                    <td className="text-gray-600 font-medium">Size</td>
                     <td className="text-gray-800/50">
                       <div className="flex flex-wrap gap-2">
-                        {productData.size.map((item, index) => {
-         
-                          return <button key={index}>{item}</button>;
+                        {productData?.size.map((item, index) => {
+                          return (
+                            <button
+                              key={index}
+                              onClick={() => setSelectedSize(item)}
+                              className={`px-2 py-1 rounded-full border transition 
+            ${
+              selectedSize === item
+                ? "bg-blue-600 text-white border-blue-600"
+                : "bg-gray-300 text-gray-800 border-gray-300 hover:bg-gray-400"
+            }`}
+                            >
+                              {item}
+                            </button>
+                          );
                         })}
                       </div>
                     </td>
@@ -148,16 +151,13 @@ const Product = () => {
 
             <div className="flex items-center mt-10 gap-4">
               <button
-                onClick={() => addToCart(productData)}
+                onClick={() => inCart(productData, selectedSize)}
                 className="w-full py-3.5 bg-gray-100 text-gray-800/80 hover:bg-gray-200 transition"
               >
                 Add to Cart
               </button>
               <button
-                onClick={() => {
-                  addToCart(productData);
-                  router.push("/cart");
-                }}
+                onClick={() => byNow(productData, selectedSize)}
                 className="w-full py-3.5 bg-orange-500 text-white hover:bg-orange-600 transition"
               >
                 Buy now

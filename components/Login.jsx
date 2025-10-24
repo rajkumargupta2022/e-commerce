@@ -47,7 +47,7 @@ function Login({ show, setShow }) {
 
         if (res.success) {
          let cartData =await JSON.parse(localStorage.getItem("cartStore"))
-       await  syncCartToServer(cartData)
+     
           toast.success("Login successful 🎉");
           localStorage.setItem("token", res.token);
           handleClose();

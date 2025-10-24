@@ -15,8 +15,7 @@ const HomeProducts = () => {
  const fetchProducts =async ()=>{
       try{
         const res = await getRequest(endPoints.products)
-        console.log("ooooo",res);
-        
+     
         setProducts(res.data)
       }catch(err){
         setProducts([])

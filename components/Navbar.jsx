@@ -7,9 +7,11 @@ import Image from "next/image";
 import Signup from "./sign-up";
 import Login from "./Login";
 import toast from "react-hot-toast";
+import { getRequest } from "@/app/utils/api-methods";
+import { endPoints } from "@/app/utils/url";
 
 const Navbar = () => {
-  const { isSeller, router, cartItems ,fetchCartData} = useAppContext();
+  const { isSeller, router, cartItems, fetchCartData } = useAppContext();
 
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isFebricOpen, setIsFebricOpen] = useState(false);
@@ -18,21 +20,22 @@ const Navbar = () => {
   const febricButtonRef = useRef(null);
   const [token, setToken] = useState("");
   const [loginModel, setLoginModel] = useState(false);
- 
+  const [categories, setCategories] = useState([]);
+  const [febric, setFebric] = useState([]);
 
-  const categories = [
-    { name: "short-kurtas", href: "/category/short-kurtas" },
-    { name: "long-kurtas", href: "/category/long-kurtas" },
-    { name: "bottom-wear", href: "/category/bottom-wear" },
-    { name: "dresses", href: "/category/dresses" },
-  ];
+  // let categories = [
+  //   { name: "short-kurtas", href: "/category/short-kurtas" },
+  //   { name: "long-kurtas", href: "/category/long-kurtas" },
+  //   { name: "bottom-wear", href: "/category/bottom-wear" },
+  //   { name: "dresses", href: "/category/dresses" },
+  // ];
 
-  const febric = [
-    { name: "chanderic", href: "/by-febric/chanderic" },
-    { name: "cotton", href: "/by-febric/cotton" },
-    { name: "modal", href: "/by-febric/modal" },
-    { name: "organza", href: "/by-febric/organza" },
-  ];
+  // const febric = [
+  //   { name: "chanderic", href: "/by-febric/chanderic" },
+  //   { name: "cotton", href: "/by-febric/cotton" },
+  //   { name: "modal", href: "/by-febric/modal" },
+  //   { name: "organza", href: "/by-febric/organza" },
+  // ];
 
   const handleCategoryClick = (href) => {
     setIsCategoryOpen(false);
@@ -66,13 +69,34 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  const logout = ()=>{
-    localStorage.removeItem("token")
-    fetchCartData()
-    setToken("")
-    toast.success("Logout successfully")
-  }
-  
+  const logout = () => {
+    localStorage.removeItem("token");
+    fetchCartData();
+    setToken("");
+    toast.success("Logout successfully");
+  };
+
+  useEffect(() => {
+    fetchCategory();
+    fecthFebric();
+  }, []);
+
+  const fecthFebric = async () => {
+    try {
+      const res = await getRequest(endPoints.febric);
+      setFebric(res.data);
+    } catch (err) {
+      setProducts([]);
+    }
+  };
+  const fetchCategory = async () => {
+    try {
+      const res = await getRequest(endPoints.category);
+      setCategories(res.data);
+    } catch (err) {
+      setProducts([]);
+    }
+  };
 
   return (
     <nav className="sticky top-0 bg-white z-50 flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-gray-300 text-gray-700">
@@ -116,13 +140,17 @@ const Navbar = () => {
           {isCategoryOpen && (
             <div className="absolute top-full mt-2 left-0 w-48 bg-white border border-gray-200 shadow-lg rounded-md z-50">
               <ul>
-                {categories.map((category) => (
-                  <li key={category.name}>
+                {categories.map((category, i) => (
+                  <li key={i}>
                     <button
-                      onClick={() => handleCategoryClick(category.href)}
+                      onClick={() =>
+                        handleCategoryClick(
+                          "/category/" + category.categoryName
+                        )
+                      }
                       className="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
                     >
-                      {category.name}
+                      {category.categoryName}
                     </button>
                   </li>
                 ))}
@@ -156,13 +184,15 @@ const Navbar = () => {
           {isFebricOpen && (
             <div className="absolute top-full mt-2 left-0 w-48 bg-white border border-gray-200 shadow-lg rounded-md z-50">
               <ul>
-                {febric.map((item) => (
-                  <li key={item.name}>
+                {febric.map((item, i) => (
+                  <li key={i}>
                     <button
-                      onClick={() => handleFebricClick(item.href)}
+                      onClick={() =>
+                        handleFebricClick("/by-febric/" + item.febricName)
+                      }
                       className="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
                     >
-                      {item.name}
+                      {item.febricName}
                     </button>
                   </li>
                 ))}
@@ -205,20 +235,31 @@ const Navbar = () => {
           )}
         </div>
 
-        <button className="flex items-center gap-2 hover:text-gray-900 transition" onClick={()=>{router.push("/my-orders")}}>
+        <button
+          className="flex items-center gap-2 hover:text-gray-900 transition"
+          onClick={() => {
+            router.push("/my-orders");
+          }}
+        >
           <Image src={assets.user_icon} alt="user icon" />
           Account
         </button>
       </ul>
-    {!token ? (
-          <button className="text-xs border px-4 py-1.5 rounded-full" onClick={()=>setLoginModel(true)}>
-            Login
-          </button>
-        ) : (
-          <button className="text-xs border px-4 py-1.5 rounded-full" onClick={logout}>
-            Logout
-          </button>
-        )}
+      {!token ? (
+        <button
+          className="text-xs border px-4 py-1.5 rounded-full"
+          onClick={() => setLoginModel(true)}
+        >
+          Login
+        </button>
+      ) : (
+        <button
+          className="text-xs border px-4 py-1.5 rounded-full"
+          onClick={logout}
+        >
+          Logout
+        </button>
+      )}
       <div className="flex items-center md:hidden gap-3">
         {isSeller && (
           <button
@@ -232,10 +273,8 @@ const Navbar = () => {
           <Image src={assets.user_icon} alt="user icon" />
           Account
         </button>
-    
       </div>
-      <Login show={loginModel} setShow={setLoginModel}/>
-  
+      <Login show={loginModel} setShow={setLoginModel} />
     </nav>
   );
 };
