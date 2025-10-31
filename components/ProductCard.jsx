@@ -42,22 +42,22 @@ const ProductCard = ({ product }) => {
         {product.description}
       </p>
       <div className="flex flex-wrap gap-2">
-        {product&& product?.size?.map((item, index) => {
-          return (
-            <button
-              key={index}
-              onClick={() => setSelectedSize(item)}
-              className={`px-2 py-1 rounded-full border transition 
-            ${
-              selectedSize === item
-                ? "bg-blue-600 text-white border-blue-600"
-                : "bg-gray-300 text-gray-800 border-gray-300 hover:bg-gray-400"
-            }`}
-            >
-              {item}
-            </button>
-          );
-        })}
+       {Array.isArray(product?.size)
+  ? product.size.map((item, index) => (
+      <button
+        key={index}
+        onClick={() => setSelectedSize(item)}
+        className={`px-2 py-1 rounded-full border transition 
+        ${
+          selectedSize === item
+            ? "bg-blue-600 text-white border-blue-600"
+            : "bg-gray-300 text-gray-800 border-gray-300 hover:bg-gray-400"
+        }`}
+      >
+        {item}
+      </button>
+    ))
+  : null}
       </div>
       {!product?.quantity && (
         <p className="w-full text-xs text-red-500/70 max-sm:hidden truncate">
